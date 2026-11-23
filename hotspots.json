@@ -205,6 +205,18 @@
  },
  {
   "step": "opportunity-4",
+  "file": "screenshots/crm-03-new-opportunity.png",
+  "hotspots": [
+   {
+    "left": 70.3,
+    "top": 15.3,
+    "width": 4.9,
+    "height": 4.2
+   }
+  ]
+ },
+ {
+  "step": "opportunity-5",
   "file": "screenshots/crm-04-schedule-activity.png",
   "hotspots": [
    {
@@ -228,7 +240,7 @@
   ]
  },
  {
-  "step": "opportunity-5",
+  "step": "opportunity-6",
   "file": "screenshots/crm-03-new-opportunity.png",
   "hotspots": [
    {
@@ -240,7 +252,7 @@
   ]
  },
  {
-  "step": "opportunity-6",
+  "step": "opportunity-7",
   "file": "screenshots/crm-03-new-opportunity.png",
   "hotspots": [
    {
