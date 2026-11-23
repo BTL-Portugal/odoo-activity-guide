@@ -205,13 +205,25 @@
  },
  {
   "step": "opportunity-4",
-  "file": "screenshots/crm-03-new-opportunity.png",
+  "file": "screenshots/crm-04-schedule-activity.png",
   "hotspots": [
    {
-    "left": 70.3,
+    "left": 18.45,
     "top": 15.3,
-    "width": 4.9,
-    "height": 4.2
+    "width": 62.9,
+    "height": 3.6
+   },
+   {
+    "left": 26.9,
+    "top": 18.9,
+    "width": 10.9,
+    "height": 34.3
+   },
+   {
+    "left": 18.45,
+    "top": 80.1,
+    "width": 62.9,
+    "height": 6.9
    }
   ]
  },
