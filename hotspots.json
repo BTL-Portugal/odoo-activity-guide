@@ -142,5 +142,101 @@
     "height": 3.6
    }
   ]
+ },
+ {
+  "step": "opportunity-1",
+  "file": "screenshots/crm-01-home.png",
+  "hotspots": [
+   {
+    "left": 70.9,
+    "top": 23.4,
+    "width": 4.7,
+    "height": 13.2
+   }
+  ]
+ },
+ {
+  "step": "opportunity-2",
+  "file": "screenshots/crm-02-pipeline.png",
+  "hotspots": [
+   {
+    "left": 0.95,
+    "top": 7.2,
+    "width": 3.5,
+    "height": 4.3
+   },
+   {
+    "left": 0.3,
+    "top": 23.4,
+    "width": 99.4,
+    "height": 3.2
+   }
+  ]
+ },
+ {
+  "step": "opportunity-3",
+  "file": "screenshots/crm-03-new-opportunity.png",
+  "hotspots": [
+   {
+    "left": 1.7,
+    "top": 22.9,
+    "width": 26.4,
+    "height": 9.5
+   },
+   {
+    "left": 1.7,
+    "top": 53.1,
+    "width": 29.7,
+    "height": 3.7
+   },
+   {
+    "left": 33.0,
+    "top": 62.0,
+    "width": 21.6,
+    "height": 4.0
+   },
+   {
+    "left": 11.8,
+    "top": 9.0,
+    "width": 1.8,
+    "height": 3.2
+   }
+  ]
+ },
+ {
+  "step": "opportunity-4",
+  "file": "screenshots/crm-03-new-opportunity.png",
+  "hotspots": [
+   {
+    "left": 70.3,
+    "top": 15.3,
+    "width": 4.9,
+    "height": 4.2
+   }
+  ]
+ },
+ {
+  "step": "opportunity-5",
+  "file": "screenshots/crm-03-new-opportunity.png",
+  "hotspots": [
+   {
+    "left": 34.7,
+    "top": 15.1,
+    "width": 28.7,
+    "height": 4.4
+   }
+  ]
+ },
+ {
+  "step": "opportunity-6",
+  "file": "screenshots/crm-03-new-opportunity.png",
+  "hotspots": [
+   {
+    "left": 16.3,
+    "top": 15.1,
+    "width": 7.2,
+    "height": 4.4
+   }
+  ]
  }
 ]

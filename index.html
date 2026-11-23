@@ -206,13 +206,34 @@
   .team-switch { color: #fff; font-weight: 600; font-size: .92rem; text-underline-offset: 3px; }
   .view-guide .site-head h1 { margin-top: 14px; }
 
+  /* Sales: where to start */
+  .fork { margin-top: 22px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); }
+  .fork h2 { margin: 0 0 12px; font-size: 1.2rem; }
+  .fork-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .path { border-radius: 14px; padding: 16px; background: #F6F8FB; border: 1px solid var(--line); display: flex; flex-direction: column; align-items: flex-start; }
+  .path.a { background: #FFF8E6; border-color: #F5DFA0; }
+  .path h3 { margin: 0 0 6px; font-size: 1.02rem; }
+  .path p { margin: 0 0 12px; font-size: .95rem; color: var(--ink-soft); flex: 1; }
+  .fork-go { background: var(--navy); color: #fff; border: 0; border-radius: 999px; padding: 7px 14px; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; }
+  .fork-go::after { content: " \2193"; }
+  #opps-sec, #steps { scroll-margin-top: 90px; }
+
   /* Opportunities (Sales only) */
-  .fu.opps { grid-template-columns: 1fr; }
   .opps .when { margin: 0 0 14px; padding: 12px 16px; border-radius: 12px; background: #FFF8E6; border: 1px solid #F5DFA0; }
-  .stages { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 16px 0 0; padding: 0; list-style: none; }
-  .stages li { background: #EEF2F7; color: var(--navy); border-radius: 999px; padding: 4px 12px; font-weight: 700; font-size: .9rem; }
-  .stages li + li::before { content: "\2192"; margin: 0 10px 0 -2px; color: #8C9BB2; font-weight: 400; }
-  .stages-label { margin: 18px 0 0 !important; font-weight: 700; font-size: .95rem; }
+  .olist { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: o; }
+  .olist > li {
+    counter-increment: o; display: grid; grid-template-columns: 1fr 188px; gap: 20px; align-items: start;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .otext { display: grid; grid-template-columns: 36px 1fr; gap: 14px; min-width: 0; }
+  .otext::before { content: counter(o); width: 36px; height: 36px; border-radius: 11px; background: var(--navy); color: var(--accent); display: grid; place-items: center; font-weight: 800; }
+  .stagebox { margin-top: 14px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
+  .stagebox h3 { margin: 0 0 6px; font-size: 1.05rem; }
+  .stagedefs { list-style: none; margin: 0; padding: 0; }
+  .stagedefs li { display: grid; grid-template-columns: 140px 1fr; gap: 12px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--line); font-size: .95rem; }
+  .stagedefs li:first-child { border-top: 0; }
+  .stagedefs .st { justify-self: start; background: #EEF2F7; color: var(--navy); border-radius: 999px; padding: 2px 12px; font-weight: 800; font-size: .88rem; }
+  .stagedefs .st.lost { background: #FDECE5; color: #C2410C; }
 
   /* Mistakes */
   section.mistakes { margin-top: 44px; }
@@ -289,6 +310,9 @@
     .fu { grid-template-columns: 1fr; padding: 16px; }
     .info { grid-template-columns: 1fr; }
     .cover { grid-template-columns: 1fr; }
+    .fork-grid { grid-template-columns: 1fr; }
+    .olist > li { grid-template-columns: 1fr; gap: 14px; padding: 16px; }
+    .stagedefs li { grid-template-columns: 1fr; gap: 4px; }
     .team-bar { margin-top: 26px; }
     .hint { display: none; }
     .v-btn { width: 42px; height: 42px; }
@@ -357,6 +381,14 @@
     <div><div class="label" id="t-rule-label"></div><p id="t-rule"></p></div>
   </div>
 
+  <section class="fork" id="fork" aria-labelledby="t-fork">
+    <h2 id="t-fork"></h2>
+    <div class="fork-grid">
+      <div class="path a"><h3 id="t-fork-a"></h3><p id="t-fork-a-d"></p><button type="button" class="fork-go" data-target="opps-sec" id="t-fork-a-go"></button></div>
+      <div class="path b"><h3 id="t-fork-b"></h3><p id="t-fork-b-d"></p><button type="button" class="fork-go" data-target="steps" id="t-fork-b-go"></button></div>
+    </div>
+  </section>
+
   <div class="progress">
     <div class="progress-row">
       <span id="count" aria-live="polite"></span>
@@ -371,7 +403,7 @@
   <section class="more" id="opps-sec" aria-labelledby="t-opps">
     <h2 id="t-opps"></h2>
     <p class="sub" id="t-opps-lede"></p>
-    <div class="fu opps" id="opps"></div>
+    <div class="opps" id="opps"></div>
   </section>
 
   <section class="more" aria-labelledby="t-follow">
@@ -425,9 +457,16 @@
     { file: "08-save-or-email",           spots: [[11.8, 9.0, 1.8, 3.2], [0.95, 15.1, 6.4, 4.3]] },
     { file: "09-calendar-check",          spots: [[4.2, 73.49, 10.2, 5.15]] },
     /* Extra view for "Plan a follow-up": the chatter's Activity button and the activities (clock) menu */
-    { file: "contact-chatter-activity",   spots: [[70.15, 15.0, 5.0, 4.7], [89.85, 0.9, 1.75, 3.6]] }
+    { file: "contact-chatter-activity",   spots: [[70.15, 15.0, 5.0, 4.7], [89.85, 0.9, 1.75, 3.6]] },
+    /* Sales: Opportunity steps (pipeline card details are blurred, as the site is public) */
+    { file: "crm-01-home",                spots: [[70.9, 23.4, 4.7, 13.2]] },
+    { file: "crm-02-pipeline",            spots: [[0.95, 7.2, 3.5, 4.3], [0.3, 23.4, 99.4, 3.2]] },
+    { file: "crm-03-new-opportunity",     spots: [[1.7, 22.9, 26.4, 9.5], [1.7, 53.1, 29.7, 3.7], [33.0, 62.0, 21.6, 4.0], [11.8, 9.0, 1.8, 3.2]] },
+    { file: "crm-03-new-opportunity",     spots: [[70.3, 15.3, 4.9, 4.2]] },
+    { file: "crm-03-new-opportunity",     spots: [[34.7, 15.1, 28.7, 4.4]] },
+    { file: "crm-03-new-opportunity",     spots: [[16.3, 15.1, 7.2, 4.4]] }
   ];
-  const STEPS = 9, FOLLOW = 9;
+  const STEPS = 9, FOLLOW = 9, OPP0 = 10, OPPS = 6;
 
   /* Simple line icons in the style of the ones Odoo uses */
   const svg = d => `<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
@@ -454,28 +493,66 @@
       coverDocTitle: "Odoo guides | BTL",
       coverTitle: "Odoo guides for BTL Portugal",
       coverLede: "Choose your team to open your guide.",
-      coverNote: "Each team has its own guide and checklist. You can change team at any time.",
+      coverNote: "Each team has its own guide and checklist.",
       salesDesc: "Log customer meetings, plan follow-ups, and track deals as Opportunities in the CRM.",
       salesGo: "Open the Sales guide",
       repairDesc: "Log customer visits and meetings, and plan follow-ups.",
       repairGo: "Open the Service/Repair guide",
-      salesLede: "Nine short steps to log a meeting, then how to track the deal as an Opportunity. Tap any screenshot to see exactly where to click.",
-      salesMistakes: ["Following a deal only through meetings, without an Opportunity in the CRM."],
-      salesSource: ` For Opportunities, see Odoo's <a href="https://www.odoo.com/documentation/19.0/applications/sales/crm/pipeline.html" target="_blank" rel="noopener">CRM pipeline documentation</a>.`,
-      oppsTitle: "Sales: track the deal as an Opportunity",
-      oppsLede: "A meeting records what happened. An Opportunity in the CRM app tracks the deal itself, from first interest to won or lost, and keeps its meetings and follow-ups together.",
-      oppsWhen: `<strong>When:</strong> create an Opportunity as soon as a customer shows real interest in buying, for example when they ask for a demo, a price offer or a quote. Create one per deal, not one per meeting. If the deal already has an Opportunity, use that one.`,
-      opps: [
-        `Open the <strong>CRM</strong> app. The <strong>Pipeline</strong> shows each opportunity as a card in its stage. Click <strong>New</strong> at the top left.`,
-        `Fill in the customer in <strong>Organization / Contact</strong> (the same contact you add as the meeting attendee), a clear <strong>Opportunity</strong> name such as \u201cDevice demo, Clínica São Dinis\u201d, the <strong>Expected Revenue</strong>, and the priority stars. Click <strong>Add</strong>, or <strong>Edit</strong> to open the full form.`,
-        `Plan the deal's meetings from the opportunity: open it and click the <strong>Meeting</strong> button at the top. The calendar opens, and a meeting you create there is linked to the opportunity. From there, follow steps 2 to 9 above as usual.`,
-        `Plan follow-ups, such as calling back or sending the offer, with <strong>Activity</strong> in the opportunity's chatter, the same way as on a contact.`,
-        `As the deal moves forward, drag its card to the next stage in the Pipeline.`,
-        `Close it: click <strong>Won</strong> when the customer buys. If they don't, click <strong>Lost</strong>, choose a <strong>Lost Reason</strong> and click <strong>Mark as Lost</strong>.`
+      forkTitle: "Start here: is there a real chance of a sale?",
+      forkA: "Yes: work from the Opportunity",
+      forkAD: "Customer already has an opportunity for this deal? Open it and plan the meeting with <strong>Activity</strong>. It also appears in your Calendar. No opportunity yet? Create it first, then plan the activity from it.",
+      forkAGo: "Opportunity steps",
+      forkB: "Not yet: use the Calendar",
+      forkBD: "For example a first contact or a courtesy visit. Follow the 9 steps below and add the customer as an attendee.",
+      forkBGo: "The 9 steps",
+      salesLede: "Start with the question below: it tells you whether to work from an Opportunity or from the Calendar. Tap any screenshot to see exactly where to click.",
+      salesMistakes: [
+        "Planning a meeting in the Calendar when the customer already has an opportunity. Plan it from the opportunity with Activity.",
+        "Leaving an opportunity in the wrong stage, or marking it Lost without a Lost Reason."
       ],
-      stagesLabel: "Odoo's default stages:",
-      stages: ["New", "Qualified", "Proposition", "Won"],
-      stagesNote: "BTL's pipeline may use other stage names. Follow the ones you see in the CRM app.",
+      salesSource: ` For Opportunities, see Odoo's <a href="https://www.odoo.com/documentation/19.0/applications/sales/crm/pipeline.html" target="_blank" rel="noopener">CRM pipeline documentation</a>.`,
+      oppsTitle: "Sales: work from the Opportunity",
+      oppsLede: "An Opportunity follows one deal from first interest to won or lost, and keeps its meetings, activities and quotes together. Use Odoo as your journal: when everything is logged there, the customer's card tells the whole story.",
+      oppsWhen: `<strong>When:</strong> as soon as there's a real chance of a sale, for example when the customer asks for a demo or a price offer. Create one opportunity per deal. If the customer already has one for this deal, open it and go straight to step 4.`,
+      oppStepOf: (n, t) => `Opportunity: step ${n} of ${t}`,
+      oppSteps: [
+        { html: `<p>From the Odoo home screen, open <strong>CRM</strong>. It opens on the <strong>Pipeline</strong>.</p>`,
+          short: "Open CRM from the Odoo home screen.",
+          alt: "Odoo home screen with the CRM app highlighted." },
+        { html: `<p>The Pipeline shows each opportunity as a card in its stage. Search for the customer first, to check they don't already have one for this deal. If not, click <strong>New</strong> at the top left.</p>`,
+          short: "Check the customer has no opportunity for this deal yet, then click New.",
+          alt: "CRM Pipeline with the New button and the stages New, Qualification, Demo, Negotiation and Won highlighted. The opportunity cards are blurred." },
+        { html: `<p>Fill in:</p>
+                 <ul>
+                   <li><strong>Opportunity Name</strong>: what and who, for example “BTL-6000 demo, Clínica São Dinis”.</li>
+                   <li><strong>Product(s)</strong>: the device(s) the customer is interested in.</li>
+                   <li><strong>Contact</strong>: the customer's own contact, the same one you add as a meeting attendee.</li>
+                   <li><strong>Expected Closing</strong> and the priority stars.</li>
+                 </ul>
+                 <p class="note">You're the <strong>Salesperson</strong> by default. Save with the <span class="key">${I.cloud}</span> cloud icon at the top.</p>`,
+          short: "Fill in the Opportunity Name, Product(s), Contact and Expected Closing, then save with the cloud icon.",
+          alt: "New opportunity form with Opportunity Name, Product(s), Contact, Expected Closing and the cloud save icon highlighted." },
+        { html: `<p>Plan the meeting from the opportunity: click <strong>Activity</strong> at the top right, choose the <strong>Activity Type</strong> (for example Meeting/Visit) and the date, and save. The activity also appears in your Calendar.</p>
+                 <p class="note">Use the same button for every next step on this deal: a call, a demo, sending the offer.</p>`,
+          short: "Plan the meeting with Activity on the opportunity. It also appears in your Calendar.",
+          alt: "Opportunity form with the Activity button highlighted." },
+        { html: `<p>As the deal moves forward, click the next stage in the bar at the top of the opportunity, or drag its card in the Pipeline.</p>`,
+          short: "Move the opportunity to the next stage as the deal progresses.",
+          alt: "Opportunity form with the stage bar highlighted." },
+        { html: `<p>Close it: click <strong>Won</strong> when the customer buys. If they don't, click <strong>Lost</strong>, choose a <strong>Lost Reason</strong> and click <strong>Mark as Lost</strong>.</p>`,
+          short: "Close it with Won, or with Lost and a Lost Reason.",
+          alt: "Opportunity form with the Won and Lost buttons highlighted." }
+      ],
+      stagesTitle: "BTL's pipeline stages",
+      stageDefs: [
+        ["New", "No price offer has been sent yet."],
+        ["Qualification", "The quote with the device(s) has been sent. The customer may still be changing it."],
+        ["Demo", "The customer has chosen what they want, and a demo is planned or done."],
+        ["Negotiation", "Agreeing the final price and terms."],
+        ["Won", "The customer bought."],
+        ["Lost", "The deal didn't happen. Always choose a Lost Reason."]
+      ],
+      managersNote: "Managers: in the Pipeline, click the <strong>Lost</strong> filter and group by <strong>Lost Reason</strong> to see why deals are lost and what to improve.",
       docTitle: "How to log a customer meeting in Odoo | BTL",
       kicker: "Odoo guide",
       title: "How to log a customer meeting in Odoo",
@@ -621,28 +698,66 @@
       coverDocTitle: "Guias Odoo | BTL",
       coverTitle: "Guias Odoo da BTL Portugal",
       coverLede: "Escolha a sua equipa para abrir o seu guia.",
-      coverNote: "Cada equipa tem o seu guia e a sua lista. Pode mudar de equipa a qualquer momento.",
+      coverNote: "Cada equipa tem o seu guia e a sua lista.",
       salesDesc: "Registe reuniões com clientes, planeie seguimentos e acompanhe negócios como Opportunities no CRM.",
       salesGo: "Abrir o guia de Vendas",
       repairDesc: "Registe visitas e reuniões com clientes e planeie seguimentos.",
       repairGo: "Abrir o guia de Assistência/Reparação",
-      salesLede: "Nove passos curtos para registar uma reunião e, depois, como acompanhar o negócio como Opportunity. Toque em qualquer imagem para ver exatamente onde clicar.",
-      salesMistakes: ["Acompanhar um negócio só com reuniões, sem uma Opportunity no CRM."],
-      salesSource: ` Para as Opportunities, consulte a <a href="https://www.odoo.com/documentation/19.0/applications/sales/crm/pipeline.html" target="_blank" rel="noopener">documentação do pipeline do CRM</a> do Odoo.`,
-      oppsTitle: "Vendas: acompanhe o negócio como Opportunity",
-      oppsLede: "A reunião regista o que aconteceu. A Opportunity (oportunidade) na app CRM acompanha o próprio negócio, do primeiro interesse até ser ganho ou perdido, e junta as reuniões e os seguimentos.",
-      oppsWhen: `<strong>Quando:</strong> crie uma Opportunity assim que o cliente mostrar interesse real em comprar, por exemplo quando pede uma demonstração, uma proposta de preço ou um orçamento. Crie uma por negócio, não uma por reunião. Se o negócio já tem uma Opportunity, use essa.`,
-      opps: [
-        `Abra a app <strong>CRM</strong>. O <strong>Pipeline</strong> mostra cada oportunidade como um cartão na sua fase. Clique em <strong>New</strong> (novo), no canto superior esquerdo.`,
-        `Preencha o cliente em <strong>Organization / Contact</strong> (organização/contacto; o mesmo contacto que adiciona como participante na reunião), um nome claro em <strong>Opportunity</strong>, por exemplo \u201cDemonstração de equipamento, Clínica São Dinis\u201d, a <strong>Expected Revenue</strong> (receita prevista) e as estrelas de prioridade. Clique em <strong>Add</strong> (adicionar), ou em <strong>Edit</strong> (editar) para abrir o formulário completo.`,
-        `Marque as reuniões do negócio a partir da oportunidade: abra-a e clique no botão <strong>Meeting</strong> (reunião), no topo. Abre-se o calendário, e a reunião que criar aí fica ligada à oportunidade. A partir daí, siga os passos 2 a 9 acima, como habitualmente.`,
-        `Planeie os seguimentos, como ligar de volta ou enviar a proposta, com <strong>Activity</strong> (atividade) no chatter da oportunidade, tal como numa ficha de contacto.`,
-        `À medida que o negócio avança, arraste o cartão para a fase seguinte no Pipeline.`,
-        `Feche-a: clique em <strong>Won</strong> (ganho) quando o cliente compra. Se não comprar, clique em <strong>Lost</strong> (perdido), escolha um <strong>Lost Reason</strong> (motivo da perda) e clique em <strong>Mark as Lost</strong>.`
+      forkTitle: "Comece aqui: há uma hipótese real de venda?",
+      forkA: "Sim: trabalhe a partir da Opportunity",
+      forkAD: "O cliente já tem uma Opportunity (oportunidade) para este negócio? Abra-a e planeie a reunião com <strong>Activity</strong> (atividade). Ela aparece também no seu Calendário. Ainda não há oportunidade? Crie-a primeiro e depois planeie a atividade a partir dela.",
+      forkAGo: "Passos da Opportunity",
+      forkB: "Ainda não: use o Calendário",
+      forkBD: "Por exemplo, um primeiro contacto ou uma visita de cortesia. Siga os 9 passos abaixo e adicione o cliente como participante.",
+      forkBGo: "Os 9 passos",
+      salesLede: "Comece pela pergunta abaixo: ela indica se deve trabalhar a partir de uma Opportunity ou do Calendário. Toque em qualquer imagem para ver exatamente onde clicar.",
+      salesMistakes: [
+        "Planear uma reunião no Calendário quando o cliente já tem uma Opportunity. Planeie-a a partir da oportunidade, com Activity.",
+        "Deixar uma Opportunity na fase errada, ou marcá-la como Lost sem um Lost Reason."
       ],
-      stagesLabel: "Fases predefinidas do Odoo:",
-      stages: ["New", "Qualified", "Proposition", "Won"],
-      stagesNote: "O pipeline da BTL pode usar outros nomes de fases. Siga os que vê na app CRM.",
+      salesSource: ` Para as Opportunities, consulte a <a href="https://www.odoo.com/documentation/19.0/applications/sales/crm/pipeline.html" target="_blank" rel="noopener">documentação do pipeline do CRM</a> do Odoo.`,
+      oppsTitle: "Vendas: trabalhe a partir da Opportunity",
+      oppsLede: "Uma Opportunity (oportunidade) acompanha um negócio desde o primeiro interesse até ser ganho ou perdido, e junta as reuniões, as atividades e os orçamentos. Use o Odoo como o seu diário: se estiver tudo registado, a ficha do cliente conta a história toda.",
+      oppsWhen: `<strong>Quando:</strong> assim que houver uma hipótese real de venda, por exemplo quando o cliente pede uma demonstração ou uma proposta de preço. Crie uma oportunidade por negócio. Se o cliente já tem uma para este negócio, abra-a e passe diretamente ao passo 4.`,
+      oppStepOf: (n, t) => `Opportunity: passo ${n} de ${t}`,
+      oppSteps: [
+        { html: `<p>No ecrã inicial do Odoo, abra o <strong>CRM</strong>. Abre no <strong>Pipeline</strong>.</p>`,
+          short: "Abra o CRM no ecrã inicial do Odoo.",
+          alt: "Ecrã inicial do Odoo com a app CRM destacada." },
+        { html: `<p>O Pipeline mostra cada oportunidade como um cartão na sua fase. Pesquise primeiro o cliente, para confirmar que ainda não tem uma para este negócio. Se não tiver, clique em <strong>New</strong> (novo), no canto superior esquerdo.</p>`,
+          short: "Confirme que o cliente ainda não tem uma oportunidade para este negócio e clique em New.",
+          alt: "Pipeline do CRM com o botão New e as fases New, Qualification, Demo, Negotiation e Won destacados. Os cartões das oportunidades estão desfocados." },
+        { html: `<p>Preencha:</p>
+                 <ul>
+                   <li><strong>Opportunity Name</strong> (nome da oportunidade): o quê e quem, por exemplo “Demonstração BTL-6000, Clínica São Dinis”.</li>
+                   <li><strong>Product(s)</strong> (produtos): o(s) equipamento(s) que interessam ao cliente.</li>
+                   <li><strong>Contact</strong> (contacto): a ficha da própria pessoa, a mesma que adiciona como participante nas reuniões.</li>
+                   <li><strong>Expected Closing</strong> (fecho previsto) e as estrelas de prioridade.</li>
+                 </ul>
+                 <p class="note">Por predefinição, o <strong>Salesperson</strong> (vendedor) é você. Guarde com o ícone da nuvem <span class="key">${I.cloud}</span>, no topo.</p>`,
+          short: "Preencha Opportunity Name, Product(s), Contact e Expected Closing e guarde com o ícone da nuvem.",
+          alt: "Formulário de nova oportunidade com Opportunity Name, Product(s), Contact, Expected Closing e o ícone da nuvem destacados." },
+        { html: `<p>Planeie a reunião a partir da oportunidade: clique em <strong>Activity</strong> (atividade), no canto superior direito, escolha o <strong>Activity Type</strong> (por exemplo Meeting/Visit) e a data, e guarde. A atividade aparece também no seu Calendário.</p>
+                 <p class="note">Use o mesmo botão para cada passo seguinte deste negócio: uma chamada, uma demonstração, o envio da proposta.</p>`,
+          short: "Planeie a reunião com Activity na oportunidade. Aparece também no seu Calendário.",
+          alt: "Formulário da oportunidade com o botão Activity destacado." },
+        { html: `<p>À medida que o negócio avança, clique na fase seguinte, na barra no topo da oportunidade, ou arraste o cartão no Pipeline.</p>`,
+          short: "Passe a oportunidade para a fase seguinte à medida que o negócio avança.",
+          alt: "Formulário da oportunidade com a barra de fases destacada." },
+        { html: `<p>Feche-a: clique em <strong>Won</strong> (ganho) quando o cliente compra. Se não comprar, clique em <strong>Lost</strong> (perdido), escolha um <strong>Lost Reason</strong> (motivo da perda) e clique em <strong>Mark as Lost</strong>.</p>`,
+          short: "Feche-a com Won, ou com Lost e um Lost Reason.",
+          alt: "Formulário da oportunidade com os botões Won e Lost destacados." }
+      ],
+      stagesTitle: "Fases do pipeline na BTL",
+      stageDefs: [
+        ["New", "Ainda não foi enviada nenhuma proposta de preço."],
+        ["Qualification", "O orçamento com o(s) equipamento(s) foi enviado. O cliente ainda pode alterá-lo."],
+        ["Demo", "O cliente já escolheu o que quer, e a demonstração está marcada ou feita."],
+        ["Negotiation", "Acordar o preço e as condições finais."],
+        ["Won", "O cliente comprou."],
+        ["Lost", "O negócio não se fez. Escolha sempre um Lost Reason."]
+      ],
+      managersNote: "Responsáveis: no Pipeline, clique no filtro <strong>Lost</strong> e agrupe por <strong>Lost Reason</strong> para ver porque se perdem negócios e o que melhorar.",
       docTitle: "Como registar uma reunião com um cliente no Odoo | BTL",
       kicker: "Guia Odoo",
       title: "Como registar uma reunião com um cliente no Odoo",
@@ -844,11 +959,25 @@
     $("opps-sec").hidden = !sales;
     $("t-opps").textContent = L.oppsTitle;
     $("t-opps-lede").textContent = L.oppsLede;
-    $("opps").innerHTML = `<div><p class="when">${L.oppsWhen}</p>
-        <ol>${L.opps.map(t => `<li><p>${t}</p></li>`).join("")}</ol>
-        <p class="stages-label">${L.stagesLabel}</p>
-        <ul class="stages">${L.stages.map(t => `<li>${t}</li>`).join("")}</ul>
-        <p class="note">${L.stagesNote}</p></div>`;
+    $("opps").innerHTML = `<p class="when">${L.oppsWhen}</p>
+      <ol class="olist">${L.oppSteps.map((o, k) => `<li>
+          <div class="otext"><div class="body">${o.html}</div></div>
+          <button type="button" class="peek" data-shot="${OPP0 + k}" aria-label="${L.oppStepOf(k + 1, OPPS)}: ${o.short}">
+            <img src="${thumb(OPP0 + k)}" alt="${o.alt}" loading="lazy" decoding="async" width="640" height="326">
+            ${boxes(OPP0 + k, "hs")}
+            <span class="cta" aria-hidden="true"><i>+</i>${L.showMe}</span>
+          </button></li>`).join("")}</ol>
+      <div class="stagebox"><h3>${L.stagesTitle}</h3>
+        <ul class="stagedefs">${L.stageDefs.map(([n, d]) => `<li><span class="st${n === "Lost" ? " lost" : ""}">${n}</span><span>${d}</span></li>`).join("")}</ul>
+        <p class="note">${L.managersNote}</p></div>`;
+    $("fork").hidden = !sales;
+    $("t-fork").textContent = L.forkTitle;
+    $("t-fork-a").textContent = L.forkA;
+    $("t-fork-a-d").innerHTML = L.forkAD;
+    $("t-fork-a-go").textContent = L.forkAGo;
+    $("t-fork-b").textContent = L.forkB;
+    $("t-fork-b-d").textContent = L.forkBD;
+    $("t-fork-b-go").textContent = L.forkBGo;
     $("t-rule-label").textContent = L.ruleLabel;
     $("t-rule").textContent = L.rule;
     $("reset").textContent = L.reset;
@@ -910,8 +1039,9 @@
   let cur = 0, lo = 0, hi = STEPS - 1, opener = null;
   const caption = i => {
     const L = LANGS[lang];
-    return i < STEPS ? { count: L.stepOf(i + 1, STEPS), text: L.steps[i].short, alt: L.steps[i].alt }
-                     : { count: L.followStepOf, text: L.followShort, alt: L.followAlt };
+    if (i < STEPS) return { count: L.stepOf(i + 1, STEPS), text: L.steps[i].short, alt: L.steps[i].alt };
+    if (i >= OPP0) { const o = L.oppSteps[i - OPP0]; return { count: L.oppStepOf(i - OPP0 + 1, OPPS), text: o.short, alt: o.alt }; }
+    return { count: L.followStepOf, text: L.followShort, alt: L.followAlt };
   };
 
   function show(i) {
@@ -939,7 +1069,7 @@
 
   function open(i, from) {
     opener = from || document.activeElement;
-    [lo, hi] = i < STEPS ? [0, STEPS - 1] : [i, i];
+    [lo, hi] = i < STEPS ? [0, STEPS - 1] : i >= OPP0 ? [OPP0, OPP0 + OPPS - 1] : [i, i];
     viewer.classList.toggle("single", lo === hi);
     viewer.hidden = false;
     document.body.classList.add("locked");
@@ -1000,6 +1130,9 @@
     tx = ty = null;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) go(dx < 0 ? 1 : -1);
   }, { passive: true });
+
+  document.querySelectorAll(".fork-go").forEach(b => b.addEventListener("click", () =>
+    $(b.dataset.target).scrollIntoView({ behavior: "smooth", block: "start" })));
 
   /* ---------- Team routing ---------- */
   function route() {
