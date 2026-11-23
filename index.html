@@ -216,6 +216,10 @@
   .path p { margin: 0 0 12px; font-size: .95rem; color: var(--ink-soft); flex: 1; }
   .fork-go { background: var(--navy); color: #fff; border: 0; border-radius: 999px; padding: 7px 14px; font: inherit; font-size: .88rem; font-weight: 700; cursor: pointer; }
   .fork-go::after { content: " \2193"; }
+  .fork-go[aria-pressed="true"] { background: var(--accent); color: var(--navy); box-shadow: 0 0 0 2px var(--navy); }
+  .fork-go[aria-pressed="true"]::after { content: " \2713"; }
+  /* Sales: nothing below the question until a path is chosen; then only that path's steps */
+  .sales-pick .after-fork, .sales-opp .cal-only { display: none !important; }
   #opps-sec, #steps { scroll-margin-top: 90px; }
 
   /* Opportunities (Sales only) */
@@ -384,12 +388,12 @@
   <section class="fork" id="fork" aria-labelledby="t-fork">
     <h2 id="t-fork"></h2>
     <div class="fork-grid">
-      <div class="path a"><h3 id="t-fork-a"></h3><p id="t-fork-a-d"></p><button type="button" class="fork-go" data-target="opps-sec" id="t-fork-a-go"></button></div>
-      <div class="path b"><h3 id="t-fork-b"></h3><p id="t-fork-b-d"></p><button type="button" class="fork-go" data-target="steps" id="t-fork-b-go"></button></div>
+      <div class="path a"><h3 id="t-fork-a"></h3><p id="t-fork-a-d"></p><button type="button" class="fork-go" data-target="opps-sec" data-path="opp" id="t-fork-a-go"></button></div>
+      <div class="path b"><h3 id="t-fork-b"></h3><p id="t-fork-b-d"></p><button type="button" class="fork-go" data-target="steps" data-path="cal" id="t-fork-b-go"></button></div>
     </div>
   </section>
 
-  <div class="progress">
+  <div class="progress cal-only after-fork">
     <div class="progress-row">
       <span id="count" aria-live="polite"></span>
       <button type="button" class="reset" id="reset"></button>
@@ -397,8 +401,8 @@
     <div class="bar" aria-hidden="true"><div id="fill"></div></div>
   </div>
 
-  <ol class="steps" id="steps"></ol>
-  <div class="complete" id="complete" role="status"></div>
+  <ol class="steps cal-only after-fork" id="steps"></ol>
+  <div class="complete cal-only after-fork" id="complete" role="status"></div>
 
   <section class="more" id="opps-sec" aria-labelledby="t-opps">
     <h2 id="t-opps"></h2>
@@ -406,18 +410,18 @@
     <div class="opps" id="opps"></div>
   </section>
 
-  <section class="more" aria-labelledby="t-follow">
+  <section class="more after-fork" aria-labelledby="t-follow">
     <h2 id="t-follow"></h2>
     <p class="sub" id="t-follow-lede"></p>
     <div class="fu" id="followup"></div>
   </section>
 
-  <section class="more" aria-labelledby="t-know">
+  <section class="more after-fork" aria-labelledby="t-know">
     <h2 id="t-know"></h2>
     <div class="info" id="know"></div>
   </section>
 
-  <section class="mistakes" aria-labelledby="t-mistakes">
+  <section class="mistakes after-fork" aria-labelledby="t-mistakes">
     <h2 id="t-mistakes"></h2>
     <ul id="mistakes"></ul>
   </section>
@@ -501,10 +505,10 @@
       forkTitle: "Start here: is there a real chance of a sale?",
       forkA: "Yes: work from the Opportunity",
       forkAD: "Customer already has an opportunity for this deal? Open it and plan the meeting with <strong>Activity</strong>. It also appears in your Calendar. No opportunity yet? Create it first, then plan the activity from it.",
-      forkAGo: "Opportunity steps",
+      forkAGo: "Show the Opportunity steps",
       forkB: "Not yet: use the Calendar",
-      forkBD: "For example a first contact or a courtesy visit. Follow the 9 steps below and add the customer as an attendee.",
-      forkBGo: "The 9 steps",
+      forkBD: "For example a first contact or a courtesy visit. Log it in the Calendar in 9 steps, and add the customer as an attendee.",
+      forkBGo: "Show the Calendar steps",
       salesLede: "Start with the question below: it tells you whether to work from an Opportunity or from the Calendar. Tap any screenshot to see exactly where to click.",
       salesMistakes: [
         "Planning a meeting in the Calendar when the customer already has an opportunity. Plan it from the opportunity with Activity.",
@@ -706,10 +710,10 @@
       forkTitle: "Comece aqui: há uma hipótese real de venda?",
       forkA: "Sim: trabalhe a partir da Opportunity",
       forkAD: "O cliente já tem uma Opportunity (oportunidade) para este negócio? Abra-a e planeie a reunião com <strong>Activity</strong> (atividade). Ela aparece também no seu Calendário. Ainda não há oportunidade? Crie-a primeiro e depois planeie a atividade a partir dela.",
-      forkAGo: "Passos da Opportunity",
+      forkAGo: "Ver os passos da Opportunity",
       forkB: "Ainda não: use o Calendário",
-      forkBD: "Por exemplo, um primeiro contacto ou uma visita de cortesia. Siga os 9 passos abaixo e adicione o cliente como participante.",
-      forkBGo: "Os 9 passos",
+      forkBD: "Por exemplo, um primeiro contacto ou uma visita de cortesia. Registe-a no Calendário em 9 passos e adicione o cliente como participante.",
+      forkBGo: "Ver os passos do Calendário",
       salesLede: "Comece pela pergunta abaixo: ela indica se deve trabalhar a partir de uma Opportunity ou do Calendário. Toque em qualquer imagem para ver exatamente onde clicar.",
       salesMistakes: [
         "Planear uma reunião no Calendário quando o cliente já tem uma Opportunity. Planeie-a a partir da oportunidade, com Activity.",
@@ -904,7 +908,7 @@
   const KEY = t => `btl-odoo-checklist-v3-${t}`;
   const LKEY = "btl-odoo-lang";
   const TOTAL = STEPS;
-  let team = null, done = [];
+  let team = null, path = null, done = [];
   function loadDone() {
     done = [];
     if (!team) return;
@@ -956,7 +960,7 @@
     $("t-c-repair-d").textContent = L.repairDesc;
     $("t-c-repair-go").textContent = L.repairGo;
     $("t-cover-note").textContent = L.coverNote;
-    $("opps-sec").hidden = !sales;
+    $("opps-sec").hidden = !(sales && path === "opp");
     $("t-opps").textContent = L.oppsTitle;
     $("t-opps-lede").textContent = L.oppsLede;
     $("opps").innerHTML = `<p class="when">${L.oppsWhen}</p>
@@ -971,6 +975,7 @@
         <ul class="stagedefs">${L.stageDefs.map(([n, d]) => `<li><span class="st${n === "Lost" ? " lost" : ""}">${n}</span><span>${d}</span></li>`).join("")}</ul>
         <p class="note">${L.managersNote}</p></div>`;
     $("fork").hidden = !sales;
+    applyPath();
     $("t-fork").textContent = L.forkTitle;
     $("t-fork-a").textContent = L.forkA;
     $("t-fork-a-d").innerHTML = L.forkAD;
@@ -1131,13 +1136,26 @@
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) go(dx < 0 ? 1 : -1);
   }, { passive: true });
 
-  document.querySelectorAll(".fork-go").forEach(b => b.addEventListener("click", () =>
-    $(b.dataset.target).scrollIntoView({ behavior: "smooth", block: "start" })));
+  /* Sales path: null until a button is pressed, then "opp" or "cal" */
+  function applyPath() {
+    const sales = team === "sales";
+    document.body.classList.toggle("sales-pick", sales && !path);
+    document.body.classList.toggle("sales-opp", sales && path === "opp");
+    $("opps-sec").hidden = !(sales && path === "opp");
+    document.querySelectorAll(".fork-go").forEach(b =>
+      b.setAttribute("aria-pressed", String(b.dataset.path === path)));
+  }
+  document.querySelectorAll(".fork-go").forEach(b => b.addEventListener("click", () => {
+    path = b.dataset.path;
+    applyPath();
+    $(b.dataset.target).scrollIntoView({ behavior: "smooth", block: "start" });
+  }));
 
   /* ---------- Team routing ---------- */
   function route() {
     const h = location.hash.slice(1);
     team = TEAMS.includes(h) ? h : null;
+    path = null;
     if (!viewer.hidden) close();
     loadDone();
     render();
