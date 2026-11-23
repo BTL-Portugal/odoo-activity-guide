@@ -1,0 +1,125 @@
+[
+ {
+  "file": "screenshots/01-home.png",
+  "hotspots": [
+   {
+    "left": 61.46,
+    "top": 23.09,
+    "width": 5.05,
+    "height": 13.79
+   }
+  ]
+ },
+ {
+  "file": "screenshots/02-contacts-search.png",
+  "hotspots": [
+   {
+    "left": 32.4,
+    "top": 7.03,
+    "width": 35.3,
+    "height": 4.69
+   }
+  ]
+ },
+ {
+  "file": "screenshots/03-contact-activities-button.png",
+  "hotspots": [
+   {
+    "left": 62.11,
+    "top": 7.03,
+    "width": 6.89,
+    "height": 4.69
+   }
+  ]
+ },
+ {
+  "file": "screenshots/04-meetings-list-new.png",
+  "hotspots": [
+   {
+    "left": 0.89,
+    "top": 7.03,
+    "width": 3.68,
+    "height": 7.43
+   }
+  ]
+ },
+ {
+  "file": "screenshots/05-meeting-form.png",
+  "hotspots": [
+   {
+    "left": 2.01,
+    "top": 23.49,
+    "width": 45.29,
+    "height": 8.9
+   },
+   {
+    "left": 10.81,
+    "top": 35.54,
+    "width": 20.36,
+    "height": 13.39
+   },
+   {
+    "left": 33.15,
+    "top": 40.7,
+    "width": 30.93,
+    "height": 19.41
+   }
+  ]
+ },
+ {
+  "file": "screenshots/06-activity-type.png",
+  "hotspots": [
+   {
+    "left": 10.88,
+    "top": 35.54,
+    "width": 11.15,
+    "height": 38.55
+   }
+  ]
+ },
+ {
+  "file": "screenshots/07-options-description.png",
+  "hotspots": [
+   {
+    "left": 6.86,
+    "top": 61.24,
+    "width": 5.87,
+    "height": 5.42
+   },
+   {
+    "left": 1.98,
+    "top": 73.03,
+    "width": 29.2,
+    "height": 21.29
+   }
+  ]
+ },
+ {
+  "file": "screenshots/08-save-or-email.png",
+  "hotspots": [
+   {
+    "left": 28.79,
+    "top": 9.71,
+    "width": 2.01,
+    "height": 3.21
+   },
+   {
+    "left": 0.89,
+    "top": 15.6,
+    "width": 6.58,
+    "height": 4.69
+   }
+  ]
+ },
+ {
+  "file": "screenshots/09-calendar-check.png",
+  "hotspots": [
+   {
+    "left": 4.2,
+    "top": 73.49,
+    "width": 10.2,
+    "height": 5.15
+   }
+  ]
+ }
+]
