@@ -150,6 +150,41 @@
   .complete.show { display: block; animation: pop .35s ease; }
   @keyframes pop { from { transform: scale(.97); opacity: 0; } }
 
+  /* Inline Odoo-style icons */
+  .ico { display: inline-flex; vertical-align: -0.16em; width: 1.15em; height: 1.15em; }
+  .ico svg { width: 100%; height: 100%; }
+  .key {
+    display: inline-flex; align-items: center; gap: 4px; padding: 0 6px; border-radius: 6px;
+    background: #EEF2F7; border: 1px solid var(--line); font-weight: 700; white-space: nowrap;
+  }
+  .body a, footer a, .info a { color: var(--navy); font-weight: 600; text-underline-offset: 2px; }
+
+  /* Secondary sections */
+  section.more { margin-top: 48px; }
+  .sub { margin: -6px 0 16px; color: var(--ink-soft); }
+  .fu {
+    display: grid; grid-template-columns: 1fr 188px; gap: 20px; align-items: start;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow);
+  }
+  .fu ol { margin: 0; padding: 0; list-style: none; counter-reset: fu; display: grid; gap: 12px; }
+  .fu ol > li { counter-increment: fu; display: grid; grid-template-columns: 30px 1fr; gap: 12px; }
+  .fu ol > li::before {
+    content: counter(fu); width: 30px; height: 30px; border-radius: 9px; background: #EEF2F7; color: var(--navy);
+    display: grid; place-items: center; font-weight: 800; font-size: .95rem; margin-top: 1px;
+  }
+  .fu ol p { margin: 0; }
+  .fu .note { grid-column: 1 / -1; }
+  .info { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .info > div { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; }
+  .info h3 { margin: 0 0 6px; font-size: 1.02rem; display: flex; align-items: center; gap: 10px; }
+  .info h3 .ico { width: 30px; height: 30px; padding: 6px; border-radius: 9px; background: var(--navy); color: var(--accent); }
+  .info p { margin: 0; font-size: .95rem; color: var(--ink-soft); }
+  .info ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 7px; font-size: .95rem; }
+  .info li { display: flex; align-items: center; gap: 10px; }
+  .info li .ico { flex: none; width: 26px; height: 26px; padding: 5px; border-radius: 8px; background: #EEF2F7; color: var(--navy); }
+  .dot { flex: none; width: 14px; height: 14px; border-radius: 50%; margin: 0 6px; }
+  .dot.g { background: #28A745; } .dot.o { background: #F0AD4E; } .dot.r { background: #DC3545; }
+
   /* Mistakes */
   section.mistakes { margin-top: 44px; }
   h2 { font-size: 1.35rem; letter-spacing: -.01em; margin: 0 0 14px; }
@@ -207,6 +242,7 @@
   .v-close { position: fixed; top: 12px; right: 12px; background: rgba(255,255,255,.14); z-index: 2; }
   .v-close:hover { background: rgba(255,255,255,.26) !important; }
   .viewer :focus-visible { outline-color: var(--accent); }
+  .viewer.single .v-nav, .viewer.single .hint { visibility: hidden; }
   .hint { font-size: .78rem; color: rgba(255,255,255,.6); margin: 0; }
 
   @media (max-width: 680px) {
@@ -221,6 +257,8 @@
     .tick { grid-template-columns: 46px 1fr; gap: 12px; }
     .badge { width: 46px; height: 46px; font-size: 1.4rem; border-radius: 13px; }
     .peek { max-width: 100%; }
+    .fu { grid-template-columns: 1fr; padding: 16px; }
+    .info { grid-template-columns: 1fr; }
     .hint { display: none; }
     .v-btn { width: 42px; height: 42px; }
   }
@@ -248,6 +286,7 @@
   @media print {
     .site-head { background: #fff; color: #000; padding-bottom: 20px; }
     .progress, .peek, .lang, .viewer { display: none !important; }
+    .fu { grid-template-columns: 1fr; }
     .rule { margin-top: 0; box-shadow: none; border: 1px solid #ccc; }
     .step { grid-template-columns: 1fr; box-shadow: none; break-inside: avoid; }
   }
@@ -282,12 +321,23 @@
   <ol class="steps" id="steps"></ol>
   <div class="complete" id="complete" role="status"></div>
 
+  <section class="more" aria-labelledby="t-follow">
+    <h2 id="t-follow"></h2>
+    <p class="sub" id="t-follow-lede"></p>
+    <div class="fu" id="followup"></div>
+  </section>
+
+  <section class="more" aria-labelledby="t-know">
+    <h2 id="t-know"></h2>
+    <div class="info" id="know"></div>
+  </section>
+
   <section class="mistakes" aria-labelledby="t-mistakes">
     <h2 id="t-mistakes"></h2>
     <ul id="mistakes"></ul>
   </section>
 
-  <footer id="t-footer"></footer>
+  <footer><p id="t-footer"></p><p id="t-source"></p></footer>
 </main>
 
 <div class="viewer" id="viewer" hidden>
@@ -299,9 +349,9 @@
       <div id="v-spots"></div>
     </figure>
     <div class="caption">
-      <button type="button" class="v-btn" id="v-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <button type="button" class="v-btn v-nav" id="v-prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <div class="txt"><span id="v-count"></span><p id="v-text"></p></div>
-      <button type="button" class="v-btn" id="v-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button type="button" class="v-btn v-nav" id="v-next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
     </div>
     <p class="hint" id="v-hint"></p>
   </div>
@@ -319,8 +369,26 @@
     { file: "06-activity-type",           spots: [[10.88, 35.54, 11.15, 38.55]] },
     { file: "07-options-description",     spots: [[6.86, 61.24, 5.87, 5.42], [1.98, 73.03, 29.2, 21.29]] },
     { file: "08-save-or-email",           spots: [[28.79, 9.71, 2.01, 3.21], [0.89, 15.6, 6.58, 4.69]] },
-    { file: "09-calendar-check",          spots: [[4.2, 73.49, 10.2, 5.15]] }
+    { file: "09-calendar-check",          spots: [[4.2, 73.49, 10.2, 5.15]] },
+    /* Extra view for "Plan a follow-up": the chatter's Activity button and the activities (clock) menu */
+    { file: "03-contact-activities-button", spots: [[70.15, 15.0, 5.0, 4.7], [89.85, 0.9, 1.75, 3.6]] }
   ];
+  const STEPS = 9, FOLLOW = 9;
+
+  /* Simple line icons in the style of the ones Odoo uses */
+  const svg = d => `<span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${d}</svg></span>`;
+  const I = {
+    clock: svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>'),
+    phone: svg('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>'),
+    mail: svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>'),
+    check: svg('<path d="M4.5 12.5l5 5L20 7"/>'),
+    users: svg('<circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M16.5 14.1c2.6.3 4.5 2.2 4.5 5"/>'),
+    upload: svg('<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>'),
+    cloud: svg('<path d="M7 18.5h10a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 6.2 9.6 4.5 4.5 0 0 0 7 18.5z"/><path d="M12 16v-5M9.8 13.2L12 11l2.2 2.2"/>'),
+    x: svg('<path d="M6 6l12 12M18 6L6 18"/>'),
+    info: svg('<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'),
+    palette: svg('<circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 12h9"/>')
+  };
   const full = i => `screenshots/${SHOTS[i].file}.png`;
   const thumb = i => `screenshots/thumbs/${SHOTS[i].file}.jpg`;
 
@@ -351,9 +419,47 @@
         "Creating events directly in Google Calendar.",
         "Vague titles such as “Meeting” or “Visit.”",
         "Logging the activity on the company when you are meeting a specific person.",
-        "Logging activities at the end, instead of as they happen."
+        "Logging activities at the end, instead of as they happen.",
+        "Using the Activity button in the chatter to log a meeting. That plans a follow-up; meetings go through the Activities button in the top bar.",
+        "Leaving yourself as Responsible when a colleague is the one at the meeting."
       ],
       footer: "Tick the steps as you go. Your progress is saved in this browser only.",
+      source: `Based on Odoo's official <a href="https://www.odoo.com/documentation/20.0/applications/essentials/activities.html" target="_blank" rel="noopener">Activities documentation</a>, adapted to how BTL Portugal uses Odoo. Screenshots are from BTL Portugal's Odoo.`,
+      followTitle: "After the meeting: plan a follow-up",
+      followLede: "Need to call back, send an offer or do something later? Plan it as an activity on the same contact, so it isn't forgotten.",
+      follow: [
+        `On the same contact, click <strong>Activity</strong> at the top of the chatter, on the right (next to <strong>Log note</strong>).`,
+        `Choose the <strong>Activity Type</strong>, for example ${I.phone} Call, ${I.mail} Email or ${I.check} To Do.`,
+        `Fill in a short <strong>Summary</strong> (for example \u201cSend price offer\u201d), the <strong>Due Date</strong>, and who it's <strong>Assigned to</strong> (you, by default).`,
+        `Click <strong>Save</strong>. It appears under <strong>Planned Activities</strong> in the chatter and in your ${I.clock} activities menu. When it's done, click <strong>Mark Done</strong> and add a short note on the outcome.`
+      ],
+      followNote: "Logging a meeting or visit? Always use the 9 steps above, so it lands in the calendar.",
+      followShort: "Plan a follow-up with Activity above the chatter. The clock icon at the top shows all your planned activities.",
+      followAlt: "Contact record with the Activity button above the chatter and the clock icon in the top bar highlighted.",
+      followStepOf: "Plan a follow-up",
+      knowTitle: "Good to know",
+      know: [
+        { icon: "info", title: "Meeting or activity?",
+          html: `<p>A <strong>meeting</strong> is a calendar event with a start time and attendees: that's what the 9 steps log. An <strong>activity</strong> is a to-do with a due date, such as a call to make or an email to send. Use activities to plan what comes next.</p>` },
+        { icon: "clock", title: "Your activities at a glance",
+          html: `<p>The ${I.clock} clock icon in the top bar lists all your planned activities, grouped into <strong>Late</strong>, <strong>Today</strong> and <strong>Future</strong>. A red number on it shows how many are waiting.</p>` },
+        { icon: "check", title: "Activity icons",
+          html: `<ul>
+                   <li>${I.clock}Planned activity (default icon)</li>
+                   <li>${I.phone}Call</li>
+                   <li>${I.mail}Email</li>
+                   <li>${I.users}Meeting</li>
+                   <li>${I.check}To Do</li>
+                   <li>${I.upload}Document to upload</li>
+                 </ul>` },
+        { icon: "palette", title: "Due-date colours",
+          html: `<p>Everywhere in Odoo, activities are coloured by due date:</p>
+                 <ul>
+                   <li><span class="dot g"></span>Green: due in the future</li>
+                   <li><span class="dot o"></span>Orange: due today</li>
+                   <li><span class="dot r"></span>Red: overdue</li>
+                 </ul>` }
+      ],
       steps: [
         {
           html: `<p>From the Odoo home screen, open <strong>Contacts</strong>.</p>`,
@@ -367,7 +473,8 @@
         },
         {
           html: `<p>Open the <strong>person's own record</strong> (under the company), then click the <strong>Activities</strong> button in the button bar at the top.</p>
-                 <p class="note">No specific person, for example a cold visit? Log it on the <strong>company record</strong> instead, and say who you spoke to (if anyone) in the description.</p>`,
+                 <p class="note">No specific person, for example a cold visit? Log it on the <strong>company record</strong> instead, and say who you spoke to (if anyone) in the description.</p>
+                 <p class="note">Use the <strong>Activities</strong> button in the top bar, not the <strong>Activity</strong> button above the chatter on the right. That one plans a follow-up (<a href="#t-follow">see below</a>).</p>`,
           short: "Open the person's record and click Activities in the top button bar.",
           alt: "A person's contact record with the Activities button in the top button bar highlighted."
         },
@@ -380,8 +487,8 @@
           html: `<p>Fill in:</p>
                  <ul>
                    <li><strong>Meeting Subject:</strong> a clear title that says what the meeting is and who or what it's about, for example “Installation follow-up, Clínica São Dinis.”</li>
-                   <li><strong>Responsible:</strong> the employee doing the activity.</li>
-                   <li><strong>Start</strong> and <strong>Duration:</strong> the actual date and start time, and how long it lasts.</li>
+                   <li><strong>Responsible:</strong> the employee doing the activity. It's you by default; change it if a colleague is going.</li>
+                   <li><strong>Start</strong> and <strong>Duration:</strong> the actual date and start time, and how long it lasts. The end time updates from the duration.</li>
                    <li><strong>Attendees:</strong> check that the contact is listed. Add other attendees if needed.</li>
                  </ul>`,
           short: "Fill in Meeting Subject, Responsible, Start and Duration, and check the attendees.",
@@ -399,7 +506,8 @@
           alt: "Meeting form with the Options tab and the Calendar description field highlighted."
         },
         {
-          html: `<p>Save with the cloud icon (<strong>Save manually</strong>) next to the record name.</p>
+          html: `<p>Save with the <span class="key">${I.cloud}</span> cloud icon (<strong>Save manually</strong>) next to the record name.</p>
+                 <p class="note">Odoo also saves when you leave the form, but saving manually makes sure nothing is lost. The <span class="key">${I.x}</span> next to it discards your changes.</p>
                  <p class="note">Optional: click <strong>Send email</strong> to notify the contact.</p>`,
           short: "Save with the cloud icon (Save manually). Optionally, click Send email.",
           alt: "Meeting form with the cloud icon (Save manually) and the Send email button highlighted."
@@ -438,9 +546,47 @@
         "Criar eventos diretamente no Google Calendar.",
         "Títulos vagos, como “Reunião” ou “Visita”.",
         "Registar a atividade na empresa quando se reúne com uma pessoa concreta.",
-        "Registar as atividades só no fim, em vez de as registar à medida que acontecem."
+        "Registar as atividades só no fim, em vez de as registar à medida que acontecem.",
+        "Usar o botão Activity do chatter para registar uma reunião. Esse botão planeia um seguimento; as reuniões registam-se com o botão Activities, na barra do topo.",
+        "Deixar-se a si próprio como Responsible quando é um colega que vai à reunião."
       ],
       footer: "Marque os passos à medida que avança. O seu progresso fica guardado apenas neste navegador.",
+      source: `Baseado na <a href="https://www.odoo.com/documentation/20.0/applications/essentials/activities.html" target="_blank" rel="noopener">documentação oficial do Odoo sobre Activities</a>, adaptada à forma como a BTL Portugal usa o Odoo. As imagens são do Odoo da BTL Portugal.`,
+      followTitle: "Depois da reunião: planeie o seguimento",
+      followLede: "Precisa de voltar a ligar, enviar uma proposta ou fazer algo mais tarde? Planeie-o como uma atividade no mesmo contacto, para não ficar esquecido.",
+      follow: [
+        `No mesmo contacto, clique em <strong>Activity</strong> (atividade), no topo do chatter, à direita (ao lado de <strong>Log note</strong>).`,
+        `Escolha o <strong>Activity Type</strong> (tipo de atividade), por exemplo ${I.phone} Call, ${I.mail} Email ou ${I.check} To Do.`,
+        `Preencha um <strong>Summary</strong> (resumo) curto, por exemplo \u201cEnviar proposta de preço\u201d, a <strong>Due Date</strong> (data limite) e o <strong>Assigned to</strong> (atribuído a; por predefinição, é você).`,
+        `Clique em <strong>Save</strong> (guardar). A atividade aparece em <strong>Planned Activities</strong> (atividades planeadas) no chatter e no seu menu de atividades ${I.clock}. Quando estiver feita, clique em <strong>Mark Done</strong> (marcar como feita) e acrescente uma nota curta sobre o resultado.`
+      ],
+      followNote: "Vai registar uma reunião ou visita? Use sempre os 9 passos acima, para que fique no calendário.",
+      followShort: "Planeie o seguimento com Activity, por cima do chatter. O ícone do relógio no topo mostra todas as suas atividades planeadas.",
+      followAlt: "Ficha de contacto com o botão Activity, por cima do chatter, e o ícone do relógio na barra do topo destacados.",
+      followStepOf: "Planear o seguimento",
+      knowTitle: "Bom saber",
+      know: [
+        { icon: "info", title: "Reunião ou atividade?",
+          html: `<p>Uma <strong>reunião</strong> é um evento no calendário, com hora de início e participantes: é isso que os 9 passos registam. Uma <strong>atividade</strong> é uma tarefa com data limite, como uma chamada a fazer ou um email a enviar. Use as atividades para planear o que vem a seguir.</p>` },
+        { icon: "clock", title: "As suas atividades num relance",
+          html: `<p>O ícone do relógio ${I.clock} na barra do topo mostra todas as suas atividades planeadas, agrupadas em <strong>Late</strong> (atrasadas), <strong>Today</strong> (hoje) e <strong>Future</strong> (futuras). Um número vermelho indica quantas estão à espera.</p>` },
+        { icon: "check", title: "Ícones das atividades",
+          html: `<ul>
+                   <li>${I.clock}Atividade planeada (ícone predefinido)</li>
+                   <li>${I.phone}Call (chamada)</li>
+                   <li>${I.mail}Email</li>
+                   <li>${I.users}Meeting (reunião)</li>
+                   <li>${I.check}To Do (tarefa)</li>
+                   <li>${I.upload}Documento a carregar</li>
+                 </ul>` },
+        { icon: "palette", title: "Cores das datas",
+          html: `<p>Em todo o Odoo, as atividades têm cores conforme a data limite:</p>
+                 <ul>
+                   <li><span class="dot g"></span>Verde: para o futuro</li>
+                   <li><span class="dot o"></span>Laranja: para hoje</li>
+                   <li><span class="dot r"></span>Vermelho: em atraso</li>
+                 </ul>` }
+      ],
       steps: [
         {
           html: `<p>No ecrã inicial do Odoo, abra <strong>Contacts</strong> (Contactos).</p>`,
@@ -454,7 +600,8 @@
         },
         {
           html: `<p>Abra a <strong>ficha da própria pessoa</strong> (por baixo da empresa) e clique no botão <strong>Activities</strong> (Atividades), na barra de botões no topo.</p>
-                 <p class="note">Não há uma pessoa concreta, por exemplo numa visita sem marcação (cold visit)? Registe na <strong>ficha da empresa</strong> e indique na descrição com quem falou (se for o caso).</p>`,
+                 <p class="note">Não há uma pessoa concreta, por exemplo numa visita sem marcação (cold visit)? Registe na <strong>ficha da empresa</strong> e indique na descrição com quem falou (se for o caso).</p>
+                 <p class="note">Use o botão <strong>Activities</strong> da barra do topo, e não o botão <strong>Activity</strong> por cima do chatter, à direita. Esse serve para planear um seguimento (<a href="#t-follow">ver abaixo</a>).</p>`,
           short: "Abra a ficha da pessoa e clique em Activities na barra de botões no topo.",
           alt: "Ficha de contacto de uma pessoa com o botão Activities destacado na barra de botões no topo."
         },
@@ -467,8 +614,8 @@
           html: `<p>Preencha:</p>
                  <ul>
                    <li><strong>Meeting Subject</strong> (assunto): um título claro, que diga o que é a reunião e com quem ou sobre o quê, por exemplo “Acompanhamento da instalação, Clínica São Dinis”.</li>
-                   <li><strong>Responsible</strong> (responsável): o colaborador que realiza a atividade.</li>
-                   <li><strong>Start</strong> (início) e <strong>Duration</strong> (duração): a data e a hora reais de início, e quanto tempo dura.</li>
+                   <li><strong>Responsible</strong> (responsável): o colaborador que realiza a atividade. Por predefinição, é você; altere se for um colega.</li>
+                   <li><strong>Start</strong> (início) e <strong>Duration</strong> (duração): a data e a hora reais de início, e quanto tempo dura. A hora de fim atualiza-se a partir da duração.</li>
                    <li><strong>Attendees</strong> (participantes): confirme que o contacto aparece na lista. Acrescente outros participantes, se for preciso.</li>
                  </ul>`,
           short: "Preencha Meeting Subject, Responsible, Start e Duration, e confirme os participantes.",
@@ -486,7 +633,8 @@
           alt: "Formulário da reunião com o separador Options e o campo Calendar description destacados."
         },
         {
-          html: `<p>Guarde com o ícone da nuvem (<strong>Save manually</strong>), ao lado do nome do registo.</p>
+          html: `<p>Guarde com o ícone da nuvem <span class="key">${I.cloud}</span> (<strong>Save manually</strong>), ao lado do nome do registo.</p>
+                 <p class="note">O Odoo também guarda quando sai do formulário, mas guardar manualmente garante que nada se perde. O <span class="key">${I.x}</span> ao lado descarta as alterações.</p>
                  <p class="note">Opcional: clique em <strong>Send email</strong> para avisar o contacto por email.</p>`,
           short: "Guarde com o ícone da nuvem (Save manually). Opcional: clique em Send email.",
           alt: "Formulário da reunião com o ícone da nuvem (Save manually) e o botão Send email destacados."
@@ -503,7 +651,7 @@
 
   const KEY = "btl-odoo-checklist-v2";
   const LKEY = "btl-odoo-lang";
-  const TOTAL = SHOTS.length;
+  const TOTAL = STEPS;
   let done = [];
   try { done = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
   if (!Array.isArray(done)) done = [];
@@ -546,6 +694,18 @@
     $("complete").textContent = L.complete;
     $("t-mistakes").textContent = L.mistakesTitle;
     $("t-footer").textContent = L.footer;
+    $("t-source").innerHTML = L.source;
+    $("t-follow").textContent = L.followTitle;
+    $("t-follow-lede").textContent = L.followLede;
+    $("followup").innerHTML = `<div><ol>${L.follow.map(t => `<li><p>${t}</p></li>`).join("")}</ol>
+        <p class="note">${L.followNote}</p></div>
+      <button type="button" class="peek" data-shot="${FOLLOW}" aria-label="${L.followShort}">
+        <img src="${thumb(FOLLOW)}" alt="${L.followAlt}" loading="lazy" decoding="async" width="640" height="326">
+        ${boxes(FOLLOW, "hs")}
+        <span class="cta" aria-hidden="true"><i>+</i>${L.showMe}</span>
+      </button>`;
+    $("t-know").textContent = L.knowTitle;
+    $("know").innerHTML = L.know.map(k => `<div><h3>${I[k.icon]}${k.title}</h3>${k.html}</div>`).join("");
     $("mistakes").innerHTML = L.mistakes.map(m => `<li>${m}</li>`).join("");
     document.querySelectorAll(".lang button").forEach(b =>
       b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
@@ -586,11 +746,16 @@
   /* ---------- Screenshot viewer ---------- */
   const viewer = $("viewer"), stage = $("v-stage"), img = $("v-img"), spotsEl = $("v-spots");
   const prevBtn = $("v-prev"), nextBtn = $("v-next"), closeBtn = $("v-close");
-  let cur = 0, opener = null;
+  let cur = 0, lo = 0, hi = STEPS - 1, opener = null;
+  const caption = i => {
+    const L = LANGS[lang];
+    return i < STEPS ? { count: L.stepOf(i + 1, STEPS), text: L.steps[i].short, alt: L.steps[i].alt }
+                     : { count: L.followStepOf, text: L.followShort, alt: L.followAlt };
+  };
 
   function show(i) {
-    cur = Math.max(0, Math.min(TOTAL - 1, i));
-    const L = LANGS[lang], s = L.steps[cur], src = full(cur);
+    cur = Math.max(lo, Math.min(hi, i));
+    const s = caption(cur), src = full(cur);
     stage.classList.add("loading");
     const ready = () => stage.classList.remove("loading");
     img.onload = ready;
@@ -603,22 +768,24 @@
       `<div class="spot" style="left:${l}%;top:${t}%;width:${w}%;height:${h}%">` +
       `<img src="${src}" alt="" aria-hidden="true" style="width:${10000 / w}%;height:${10000 / h}%;left:${-l / w * 100}%;top:${-t / h * 100}%"></div>`
     ).join("");
-    $("v-count").textContent = L.stepOf(cur + 1, TOTAL);
-    $("v-text").textContent = s.short;
-    prevBtn.disabled = cur === 0;
-    nextBtn.disabled = cur === TOTAL - 1;
+    $("v-count").textContent = s.count;
+    $("v-text").textContent = s.text;
+    prevBtn.disabled = cur === lo;
+    nextBtn.disabled = cur === hi;
     if (document.activeElement === document.body) closeBtn.focus();
-    [cur - 1, cur + 1].forEach(j => { if (j >= 0 && j < TOTAL) new Image().src = full(j); });
+    [cur - 1, cur + 1].forEach(j => { if (j >= lo && j <= hi) new Image().src = full(j); });
   }
 
   function open(i, from) {
     opener = from || document.activeElement;
+    [lo, hi] = i < STEPS ? [0, STEPS - 1] : [i, i];
+    viewer.classList.toggle("single", lo === hi);
     viewer.hidden = false;
     document.body.classList.add("locked");
     $("main").inert = true;
     document.querySelector(".site-head").inert = true;
     show(i);
-    (cur < TOTAL - 1 ? nextBtn : closeBtn).focus();
+    (cur < hi ? nextBtn : closeBtn).focus();
   }
 
   function close() {
@@ -628,18 +795,18 @@
     document.querySelector(".site-head").inert = false;
     img.removeAttribute("src");
     if (opener && opener.isConnected) opener.focus();
-    else { const b = list.querySelector(`[data-shot="${cur}"]`); if (b) b.focus(); }
+    else { const b = document.querySelector(`[data-shot="${cur}"]`); if (b) b.focus(); }
   }
 
   function go(d) {
     const j = cur + d;
-    if (j < 0 || j >= TOTAL) return;
+    if (j < lo || j > hi) return;
     show(j);
     /* keep focus on a usable control when an arrow becomes disabled */
     if (document.activeElement && document.activeElement.disabled) (d < 0 ? nextBtn : prevBtn).focus();
   }
 
-  list.addEventListener("click", e => {
+  $("main").addEventListener("click", e => {
     const b = e.target.closest(".peek");
     if (b) open(+b.dataset.shot, b);
   });
