@@ -1,83 +1,84 @@
 [
  {
-  "file": "screenshots/01-home.png",
+  "step": 1,
+  "file": "screenshots/01-calendar-app.png",
   "hotspots": [
    {
-    "left": 61.46,
-    "top": 23.09,
-    "width": 5.05,
-    "height": 13.79
+    "left": 33.3,
+    "top": 22.9,
+    "width": 5.3,
+    "height": 14.2
    }
   ]
  },
  {
-  "file": "screenshots/02-contacts-search.png",
+  "step": 2,
+  "file": "screenshots/02-calendar-new.png",
   "hotspots": [
    {
-    "left": 32.4,
-    "top": 7.03,
-    "width": 35.3,
-    "height": 4.69
+    "left": 0.75,
+    "top": 6.9,
+    "width": 3.8,
+    "height": 5.0
    }
   ]
  },
  {
-  "file": "screenshots/03-contact-activities-button.png",
+  "step": 3,
+  "file": "screenshots/03-new-event-dialog.png",
   "hotspots": [
    {
-    "left": 62.11,
-    "top": 7.03,
-    "width": 6.89,
-    "height": 4.69
-   }
-  ]
- },
- {
-  "file": "screenshots/04-meetings-list-new.png",
-  "hotspots": [
-   {
-    "left": 0.89,
-    "top": 7.03,
-    "width": 3.68,
-    "height": 7.43
-   }
-  ]
- },
- {
-  "file": "screenshots/05-meeting-form.png",
-  "hotspots": [
-   {
-    "left": 2.01,
-    "top": 23.49,
-    "width": 45.29,
-    "height": 8.9
+    "left": 18.2,
+    "top": 32.2,
+    "width": 64.0,
+    "height": 4.0
    },
    {
-    "left": 10.81,
-    "top": 35.54,
-    "width": 20.36,
-    "height": 13.39
-   },
-   {
-    "left": 33.15,
-    "top": 40.7,
-    "width": 30.93,
-    "height": 19.41
+    "left": 27.3,
+    "top": 36.6,
+    "width": 45.6,
+    "height": 4.1
    }
   ]
  },
  {
-  "file": "screenshots/06-activity-type.png",
+  "step": 4,
+  "file": "screenshots/03-new-event-dialog.png",
   "hotspots": [
    {
-    "left": 10.88,
-    "top": 35.54,
-    "width": 11.15,
-    "height": 38.55
+    "left": 19.6,
+    "top": 36.6,
+    "width": 6.6,
+    "height": 4.1
    }
   ]
  },
  {
+  "step": 5,
+  "file": "screenshots/03-new-event-dialog.png",
+  "hotspots": [
+   {
+    "left": 19.6,
+    "top": 41.6,
+    "width": 30.0,
+    "height": 3.8
+   }
+  ]
+ },
+ {
+  "step": 6,
+  "file": "screenshots/03-new-event-dialog.png",
+  "hotspots": [
+   {
+    "left": 22.4,
+    "top": 66.8,
+    "width": 8.0,
+    "height": 4.8
+   }
+  ]
+ },
+ {
+  "step": 7,
   "file": "screenshots/07-options-description.png",
   "hotspots": [
    {
@@ -95,6 +96,7 @@
   ]
  },
  {
+  "step": 8,
   "file": "screenshots/08-save-or-email.png",
   "hotspots": [
    {
@@ -112,6 +114,7 @@
   ]
  },
  {
+  "step": 9,
   "file": "screenshots/09-calendar-check.png",
   "hotspots": [
    {
@@ -119,6 +122,24 @@
     "top": 73.49,
     "width": 10.2,
     "height": 5.15
+   }
+  ]
+ },
+ {
+  "step": "follow-up",
+  "file": "screenshots/contact-chatter-activity.png",
+  "hotspots": [
+   {
+    "left": 70.15,
+    "top": 15.0,
+    "width": 5.0,
+    "height": 4.7
+   },
+   {
+    "left": 89.85,
+    "top": 0.9,
+    "width": 1.75,
+    "height": 3.6
    }
   ]
  }
