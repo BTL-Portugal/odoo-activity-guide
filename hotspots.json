@@ -82,16 +82,16 @@
   "file": "screenshots/07-options-description.png",
   "hotspots": [
    {
-    "left": 6.86,
-    "top": 61.24,
-    "width": 5.87,
-    "height": 5.42
+    "left": 7.0,
+    "top": 61.4,
+    "width": 5.73,
+    "height": 5.1
    },
    {
-    "left": 1.98,
-    "top": 73.03,
-    "width": 29.2,
-    "height": 21.29
+    "left": 1.7,
+    "top": 73.2,
+    "width": 29.7,
+    "height": 21.2
    }
   ]
  },
@@ -100,16 +100,16 @@
   "file": "screenshots/08-save-or-email.png",
   "hotspots": [
    {
-    "left": 28.79,
-    "top": 9.71,
-    "width": 2.01,
-    "height": 3.21
+    "left": 11.8,
+    "top": 9.0,
+    "width": 1.8,
+    "height": 3.2
    },
    {
-    "left": 0.89,
-    "top": 15.6,
-    "width": 6.58,
-    "height": 4.69
+    "left": 0.95,
+    "top": 15.1,
+    "width": 6.4,
+    "height": 4.3
    }
   ]
  },
