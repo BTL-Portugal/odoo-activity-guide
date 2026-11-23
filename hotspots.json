@@ -43,13 +43,13 @@
  },
  {
   "step": 4,
-  "file": "screenshots/03-new-event-dialog.png",
+  "file": "screenshots/04-activity-types.png",
   "hotspots": [
    {
-    "left": 19.6,
+    "left": 20.0,
     "top": 36.6,
-    "width": 6.6,
-    "height": 4.1
+    "width": 11.2,
+    "height": 38.6
    }
   ]
  },
