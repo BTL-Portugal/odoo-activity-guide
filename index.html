@@ -466,7 +466,7 @@
     { file: "crm-01-home",                spots: [[70.9, 23.4, 4.7, 13.2]] },
     { file: "crm-02-pipeline",            spots: [[0.95, 7.2, 3.5, 4.3], [0.3, 23.4, 99.4, 3.2]] },
     { file: "crm-03-new-opportunity",     spots: [[1.7, 22.9, 26.4, 9.5], [1.7, 53.1, 29.7, 3.7], [33.0, 62.0, 21.6, 4.0], [11.8, 9.0, 1.8, 3.2]] },
-    { file: "crm-03-new-opportunity",     spots: [[70.3, 15.3, 4.9, 4.2]] },
+    { file: "crm-04-schedule-activity",   spots: [[18.45, 15.3, 62.9, 3.6], [26.9, 18.9, 10.9, 34.3], [18.45, 80.1, 62.9, 6.9]] },
     { file: "crm-03-new-opportunity",     spots: [[34.7, 15.1, 28.7, 4.4]] },
     { file: "crm-03-new-opportunity",     spots: [[16.3, 15.1, 7.2, 4.4]] }
   ];
@@ -536,10 +536,16 @@
                  <p class="note">You're the <strong>Salesperson</strong> by default. Save with the <span class="key">${I.cloud}</span> cloud icon at the top.</p>`,
           short: "Fill in the Opportunity Name, Product(s), Contact and Expected Closing, then save with the cloud icon.",
           alt: "New opportunity form with Opportunity Name, Product(s), Contact, Expected Closing and the cloud save icon highlighted." },
-        { html: `<p>Plan the meeting from the opportunity: click <strong>Activity</strong> at the top right, choose the <strong>Activity Type</strong> (for example Meeting/Visit) and the date, and save. The activity also appears in your Calendar.</p>
+        { html: `<p>Plan the meeting from the opportunity: click <strong>Activity</strong> at the top right. In the <strong>Schedule Activity</strong> window:</p>
+                 <ul>
+                   <li>Always choose the <strong>Activity Type</strong>, for example Meeting/Visit, Call or Demo. Never leave it empty: it's what tells everyone what the activity is.</li>
+                   <li>Set the <strong>Start</strong> date and time.</li>
+                   <li>Add notes in <strong>Description</strong>: the goal, what to prepare and who's coming.</li>
+                 </ul>
+                 <p>Click <strong>Schedule</strong>. The activity also appears in your Calendar.</p>
                  <p class="note">Use the same button for every next step on this deal: a call, a demo, sending the offer.</p>`,
-          short: "Plan the meeting with Activity on the opportunity. It also appears in your Calendar.",
-          alt: "Opportunity form with the Activity button highlighted." },
+          short: "Click Activity, always choose the Activity Type, add notes in Description, and click Schedule. It also appears in your Calendar.",
+          alt: "Schedule Activity window opened from an opportunity, with the Activity Type list (Meeting/Visit, To Do, Call, Demo and more) and the Description field highlighted. Customer names are blurred." },
         { html: `<p>As the deal moves forward, click the next stage in the bar at the top of the opportunity, or drag its card in the Pipeline.</p>`,
           short: "Move the opportunity to the next stage as the deal progresses.",
           alt: "Opportunity form with the stage bar highlighted." },
@@ -741,10 +747,16 @@
                  <p class="note">Por predefinição, o <strong>Salesperson</strong> (vendedor) é você. Guarde com o ícone da nuvem <span class="key">${I.cloud}</span>, no topo.</p>`,
           short: "Preencha Opportunity Name, Product(s), Contact e Expected Closing e guarde com o ícone da nuvem.",
           alt: "Formulário de nova oportunidade com Opportunity Name, Product(s), Contact, Expected Closing e o ícone da nuvem destacados." },
-        { html: `<p>Planeie a reunião a partir da oportunidade: clique em <strong>Activity</strong> (atividade), no canto superior direito, escolha o <strong>Activity Type</strong> (por exemplo Meeting/Visit) e a data, e guarde. A atividade aparece também no seu Calendário.</p>
+        { html: `<p>Planeie a reunião a partir da oportunidade: clique em <strong>Activity</strong> (atividade), no canto superior direito. Na janela <strong>Schedule Activity</strong> (agendar atividade):</p>
+                 <ul>
+                   <li>Escolha sempre o <strong>Activity Type</strong> (tipo de atividade), por exemplo Meeting/Visit, Call ou Demo. Nunca o deixe vazio: é o que indica a todos que atividade é.</li>
+                   <li>Defina a data e a hora em <strong>Start</strong> (início).</li>
+                   <li>Escreva notas em <strong>Description</strong> (descrição): o objetivo, o que preparar e quem vai.</li>
+                 </ul>
+                 <p>Clique em <strong>Schedule</strong> (agendar). A atividade aparece também no seu Calendário.</p>
                  <p class="note">Use o mesmo botão para cada passo seguinte deste negócio: uma chamada, uma demonstração, o envio da proposta.</p>`,
-          short: "Planeie a reunião com Activity na oportunidade. Aparece também no seu Calendário.",
-          alt: "Formulário da oportunidade com o botão Activity destacado." },
+          short: "Clique em Activity, escolha sempre o Activity Type, escreva notas em Description e clique em Schedule. Aparece também no seu Calendário.",
+          alt: "Janela Schedule Activity aberta a partir de uma oportunidade, com a lista Activity Type (Meeting/Visit, To Do, Call, Demo e outros) e o campo Description destacados. Os nomes dos clientes estão desfocados." },
         { html: `<p>À medida que o negócio avança, clique na fase seguinte, na barra no topo da oportunidade, ou arraste o cartão no Pipeline.</p>`,
           short: "Passe a oportunidade para a fase seguinte à medida que o negócio avança.",
           alt: "Formulário da oportunidade com a barra de fases destacada." },
