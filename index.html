@@ -364,7 +364,7 @@
     { file: "01-calendar-app",            spots: [[33.3, 22.9, 5.3, 14.2]] },
     { file: "02-calendar-new",            spots: [[0.75, 6.9, 3.8, 5.0]] },
     { file: "03-new-event-dialog",        spots: [[18.2, 32.2, 64.0, 4.0], [27.3, 36.6, 45.6, 4.1]] },
-    { file: "03-new-event-dialog",        spots: [[19.6, 36.6, 6.6, 4.1]] },
+    { file: "04-activity-types",          spots: [[20.0, 36.6, 11.2, 38.6]] },
     { file: "03-new-event-dialog",        spots: [[19.6, 41.6, 30.0, 3.8]] },
     { file: "03-new-event-dialog",        spots: [[22.4, 66.8, 8.0, 4.8]] },
     { file: "07-options-description",     spots: [[6.86, 61.24, 5.87, 5.42], [1.98, 73.03, 29.2, 21.29]] },
@@ -484,10 +484,20 @@
           alt: "New Event window with the title field and the Responsible and date and time fields highlighted."
         },
         {
-          html: `<p>Choose the right <strong>Activity Type</strong>, the first field under the title (it shows “Meeting/…” by default): <strong>Meeting/Visit</strong> for a meeting or visit, otherwise the matching type, such as Call, Training, Prospecting, Installation, Business trip or Email.</p>
+          html: `<p>Click the <strong>Activity Type</strong>, the first field under the title (it shows “Meeting/…” by default), and choose the one that fits:</p>
+                 <ul>
+                   <li><strong>Meeting/Visit</strong>: a meeting with a customer, in person or online.</li>
+                   <li><strong>To Do</strong>: a general task.</li>
+                   <li><strong>Call</strong>: a phone call.</li>
+                   <li><strong>Training</strong>: training a customer or a colleague.</li>
+                   <li><strong>Prospecting</strong>: reaching out to a potential new customer.</li>
+                   <li><strong>Installation</strong>: installing or setting up equipment at a customer.</li>
+                   <li><strong>Business trip</strong>: travelling for work.</li>
+                   <li><strong>Email</strong>: an email to a customer.</li>
+                 </ul>
                  <p class="note">Use To Do only if nothing else fits.</p>`,
           short: "Choose the right Activity Type, for example Meeting/Visit.",
-          alt: "New Event window with the Activity Type field highlighted."
+          alt: "New Event window with the Activity Type list open: Meeting/Visit, To Do, Call, Training, Prospecting, Installation, Business trip and Email."
         },
         {
           html: `<p>Add the customer as an <strong>attendee</strong>. In the attendees field (the person icon, where your own name already is), type the customer's name and pick the <strong>person's own contact</strong>. Contacts show as “Company, Person”, so check it's the right company.</p>
@@ -614,10 +624,20 @@
           alt: "Janela New Event com o campo do título e os campos Responsible e de data e hora destacados."
         },
         {
-          html: `<p>Escolha o <strong>Activity Type</strong> (tipo de atividade) certo, no primeiro campo por baixo do título (por predefinição mostra “Meeting/…”): <strong>Meeting/Visit</strong> para uma reunião ou visita; caso contrário, o tipo correspondente, como Call, Training, Prospecting, Installation, Business trip ou Email.</p>
+          html: `<p>Clique no <strong>Activity Type</strong> (tipo de atividade), o primeiro campo por baixo do título (por predefinição mostra “Meeting/…”), e escolha o que corresponde:</p>
+                 <ul>
+                   <li><strong>Meeting/Visit</strong> (reunião/visita): uma reunião com um cliente, presencial ou online.</li>
+                   <li><strong>To Do</strong> (tarefa): uma tarefa geral.</li>
+                   <li><strong>Call</strong> (chamada): uma chamada telefónica.</li>
+                   <li><strong>Training</strong> (formação): formação a um cliente ou a um colega.</li>
+                   <li><strong>Prospecting</strong> (prospeção): contacto com um potencial novo cliente.</li>
+                   <li><strong>Installation</strong> (instalação): instalação ou configuração de equipamento num cliente.</li>
+                   <li><strong>Business trip</strong> (viagem de negócios): uma deslocação em trabalho.</li>
+                   <li><strong>Email</strong>: um email para um cliente.</li>
+                 </ul>
                  <p class="note">Use To Do apenas se nenhum outro servir. Os nomes dos tipos estão escritos como aparecem no Odoo.</p>`,
           short: "Escolha o Activity Type certo, por exemplo Meeting/Visit.",
-          alt: "Janela New Event com o campo Activity Type destacado."
+          alt: "Janela New Event com a lista Activity Type aberta: Meeting/Visit, To Do, Call, Training, Prospecting, Installation, Business trip e Email."
         },
         {
           html: `<p>Adicione o cliente como <strong>participante</strong>. No campo dos participantes (o ícone de pessoa, onde já aparece o seu nome), escreva o nome do cliente e escolha a <strong>ficha da própria pessoa</strong>. Os contactos aparecem como “Empresa, Pessoa”, por isso confirme que a empresa é a certa.</p>
