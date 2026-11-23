@@ -361,17 +361,17 @@
   /* Screenshots and highlight boxes (percent of image: left, top, width, height).
      Kept in sync with hotspots.json, inlined so the page also works when opened as a local file. */
   const SHOTS = [
-    { file: "01-home",                    spots: [[61.46, 23.09, 5.05, 13.79]] },
-    { file: "02-contacts-search",         spots: [[32.4, 7.03, 35.3, 4.69]] },
-    { file: "03-contact-activities-button", spots: [[62.11, 7.03, 6.89, 4.69]] },
-    { file: "04-meetings-list-new",       spots: [[0.89, 7.03, 3.68, 7.43]] },
-    { file: "05-meeting-form",            spots: [[2.01, 23.49, 45.29, 8.9], [10.81, 35.54, 20.36, 13.39], [33.15, 40.7, 30.93, 19.41]] },
-    { file: "06-activity-type",           spots: [[10.88, 35.54, 11.15, 38.55]] },
+    { file: "01-calendar-app",            spots: [[33.3, 22.9, 5.3, 14.2]] },
+    { file: "02-calendar-new",            spots: [[0.75, 6.9, 3.8, 5.0]] },
+    { file: "03-new-event-dialog",        spots: [[18.2, 32.2, 64.0, 4.0], [27.3, 36.6, 45.6, 4.1]] },
+    { file: "03-new-event-dialog",        spots: [[19.6, 36.6, 6.6, 4.1]] },
+    { file: "03-new-event-dialog",        spots: [[19.6, 41.6, 30.0, 3.8]] },
+    { file: "03-new-event-dialog",        spots: [[22.4, 66.8, 8.0, 4.8]] },
     { file: "07-options-description",     spots: [[6.86, 61.24, 5.87, 5.42], [1.98, 73.03, 29.2, 21.29]] },
     { file: "08-save-or-email",           spots: [[28.79, 9.71, 2.01, 3.21], [0.89, 15.6, 6.58, 4.69]] },
     { file: "09-calendar-check",          spots: [[4.2, 73.49, 10.2, 5.15]] },
     /* Extra view for "Plan a follow-up": the chatter's Activity button and the activities (clock) menu */
-    { file: "03-contact-activities-button", spots: [[70.15, 15.0, 5.0, 4.7], [89.85, 0.9, 1.75, 3.6]] }
+    { file: "contact-chatter-activity",   spots: [[70.15, 15.0, 5.0, 4.7], [89.85, 0.9, 1.75, 3.6]] }
   ];
   const STEPS = 9, FOLLOW = 9;
 
@@ -400,7 +400,7 @@
       title: "How to log a customer meeting in Odoo",
       lede: "Nine short steps. Tap any screenshot to see exactly where to click.",
       ruleLabel: "The rule",
-      rule: "Never create a meeting directly in the Calendar app or in Google Calendar. Always start from the contact.",
+      rule: "Never create meetings in Google Calendar. Always create them in the Odoo Calendar, and add the customer as an attendee.",
       count: (n, t) => `${n} of ${t} steps done`,
       reset: "Reset checklist",
       step: "Step",
@@ -418,23 +418,24 @@
       mistakes: [
         "Creating events directly in Google Calendar.",
         "Vague titles such as “Meeting” or “Visit.”",
-        "Logging the activity on the company when you are meeting a specific person.",
+        "Forgetting to add the customer as an attendee, so the meeting doesn't appear on their contact card.",
+        "Adding the company as the attendee when you are meeting a specific person.",
         "Logging activities at the end, instead of as they happen.",
-        "Using the Activity button in the chatter to log a meeting. That plans a follow-up; meetings go through the Activities button in the top bar.",
+        "Using the Activity button in a contact's chatter to log a meeting. That plans a follow-up; meetings are created in the Calendar.",
         "Leaving yourself as Responsible when a colleague is the one at the meeting."
       ],
       footer: "Tick the steps as you go. Your progress is saved in this browser only.",
       source: `Based on Odoo's official <a href="https://www.odoo.com/documentation/20.0/applications/essentials/activities.html" target="_blank" rel="noopener">Activities documentation</a>, adapted to how BTL Portugal uses Odoo. Screenshots are from BTL Portugal's Odoo.`,
       followTitle: "After the meeting: plan a follow-up",
-      followLede: "Need to call back, send an offer or do something later? Plan it as an activity on the same contact, so it isn't forgotten.",
+      followLede: "Need to call back, send an offer or do something later? Plan it as an activity on the customer's contact, so it isn't forgotten.",
       follow: [
-        `On the same contact, click <strong>Activity</strong> at the top of the chatter, on the right (next to <strong>Log note</strong>).`,
+        `Open the customer in <strong>Contacts</strong>, then click <strong>Activity</strong> at the top of the chatter, on the right (next to <strong>Log note</strong>).`,
         `Choose the <strong>Activity Type</strong>, for example ${I.phone} Call, ${I.mail} Email or ${I.check} To Do.`,
         `Fill in a short <strong>Summary</strong> (for example \u201cSend price offer\u201d), the <strong>Due Date</strong>, and who it's <strong>Assigned to</strong> (you, by default).`,
         `Click <strong>Save</strong>. It appears under <strong>Planned Activities</strong> in the chatter and in your ${I.clock} activities menu. When it's done, click <strong>Mark Done</strong> and add a short note on the outcome.`
       ],
       followNote: "Logging a meeting or visit? Always use the 9 steps above, so it lands in the calendar.",
-      followShort: "Plan a follow-up with Activity above the chatter. The clock icon at the top shows all your planned activities.",
+      followShort: "On the customer's contact, plan a follow-up with Activity above the chatter. The clock icon at the top shows all your planned activities.",
       followAlt: "Contact record with the Activity button above the chatter and the clock icon in the top bar highlighted.",
       followStepOf: "Plan a follow-up",
       knowTitle: "Good to know",
@@ -462,60 +463,62 @@
       ],
       steps: [
         {
-          html: `<p>From the Odoo home screen, open <strong>Contacts</strong>.</p>`,
-          short: "Open the Contacts app from the Odoo home screen.",
-          alt: "Odoo home screen with the Contacts app highlighted."
+          html: `<p>From the Odoo home screen, open <strong>Calendar</strong>. This is Odoo's own calendar, not Google Calendar.</p>`,
+          short: "Open the Calendar app from the Odoo home screen.",
+          alt: "Odoo home screen with the Calendar app highlighted."
         },
         {
-          html: `<p>Search for the person you are meeting by name (or by company) in the <strong>search bar</strong>. Keep the default filters, <strong>My Company</strong> and <strong>Customers</strong>, as they are.</p>`,
-          short: "Search for the person in the search bar. Keep the default filters.",
-          alt: "Contacts list with the search bar and its default filters, My Company and Customers, highlighted."
+          html: `<p>Click <strong>New</strong> at the top left.</p>
+                 <p class="note">You can also click the day and time directly in the calendar. Both open the same <strong>New Event</strong> window.</p>`,
+          short: "Click New at the top left of the Calendar.",
+          alt: "Odoo Calendar week view with the New button highlighted."
         },
         {
-          html: `<p>Open the <strong>person's own record</strong> (under the company), then click the <strong>Activities</strong> button in the button bar at the top.</p>
-                 <p class="note">No specific person, for example a cold visit? Log it on the <strong>company record</strong> instead, and say who you spoke to (if anyone) in the description.</p>
-                 <p class="note">Use the <strong>Activities</strong> button in the top bar, not the <strong>Activity</strong> button above the chatter on the right. That one plans a follow-up (<a href="#t-follow">see below</a>).</p>`,
-          short: "Open the person's record and click Activities in the top button bar.",
-          alt: "A person's contact record with the Activities button in the top button bar highlighted."
-        },
-        {
-          html: `<p>This opens the list of meetings for this contact. Click <strong>New</strong>.</p>`,
-          short: "In the contact's list of meetings, click New.",
-          alt: "The contact's list of meetings with the New button highlighted."
-        },
-        {
-          html: `<p>Fill in:</p>
+          html: `<p>In the <strong>New Event</strong> window, fill in:</p>
                  <ul>
-                   <li><strong>Meeting Subject:</strong> a clear title that says what the meeting is and who or what it's about, for example “Installation follow-up, Clínica São Dinis.”</li>
-                   <li><strong>Responsible:</strong> the employee doing the activity. It's you by default; change it if a colleague is going.</li>
-                   <li><strong>Start</strong> and <strong>Duration:</strong> the actual date and start time, and how long it lasts. The end time updates from the duration.</li>
-                   <li><strong>Attendees:</strong> check that the contact is listed. Add other attendees if needed.</li>
+                   <li><strong>Title</strong> (where it says “Add Title”): a clear title that says what the meeting is and who or what it's about, for example “Installation follow-up, Clínica São Dinis.”</li>
+                   <li><strong>Responsible</strong> (the name next to the activity type): the employee doing the activity. It's you by default; change it if a colleague is going.</li>
+                   <li><strong>Start and end:</strong> the actual date and times of the meeting.</li>
                  </ul>`,
-          short: "Fill in Meeting Subject, Responsible, Start and Duration, and check the attendees.",
-          alt: "New meeting form with the Meeting Subject, the Responsible and Start fields, and the attendees list highlighted."
+          short: "In the New Event window, fill in the title, Responsible, and the start and end time.",
+          alt: "New Event window with the title field and the Responsible and date and time fields highlighted."
         },
         {
-          html: `<p>Choose the right <strong>Activity Type</strong>: <strong>Meeting/Visit</strong> for a meeting or visit, otherwise the matching type, such as Call, Training, Prospecting, Installation, Business trip or Email.</p>
+          html: `<p>Choose the right <strong>Activity Type</strong>, the first field under the title (it shows “Meeting/…” by default): <strong>Meeting/Visit</strong> for a meeting or visit, otherwise the matching type, such as Call, Training, Prospecting, Installation, Business trip or Email.</p>
                  <p class="note">Use To Do only if nothing else fits.</p>`,
           short: "Choose the right Activity Type, for example Meeting/Visit.",
-          alt: "The Activity Type list open, showing Meeting/Visit, To Do, Call, Training, Prospecting, Installation, Business trip and Email."
+          alt: "New Event window with the Activity Type field highlighted."
         },
         {
-          html: `<p>Open the <strong>Options</strong> tab and, in <strong>Calendar description</strong>, write what was discussed, the goal, and the next steps.</p>`,
+          html: `<p>Add the customer as an <strong>attendee</strong>. In the attendees field (the person icon, where your own name already is), type the customer's name and pick the <strong>person's own contact</strong>. Contacts show as “Company, Person”, so check it's the right company.</p>
+                 <p class="note">This is what links the meeting to the customer: it then also appears on their contact card.</p>
+                 <p class="note">No specific person, for example a cold visit? Add the <strong>company</strong> as the attendee instead, and say who you spoke to (if anyone) in the description. Add any colleagues who are joining too.</p>`,
+          short: "Add the customer as an attendee: the person's own contact.",
+          alt: "New Event window with the attendees field highlighted."
+        },
+        {
+          html: `<p>Click <strong>More Options</strong> (not Save) to open the full meeting form.</p>
+                 <p class="note">Check that everything is right there: Activity Type, Responsible, Start, Duration and the attendees.</p>`,
+          short: "Click More Options to open the full meeting form.",
+          alt: "New Event window with the More Options button highlighted."
+        },
+        {
+          html: `<p>In the full form, open the <strong>Options</strong> tab and, in <strong>Calendar description</strong>, write what was discussed, the goal, and the next steps.</p>`,
           short: "Open the Options tab and write the details in Calendar description.",
           alt: "Meeting form with the Options tab and the Calendar description field highlighted."
         },
         {
           html: `<p>Save with the <span class="key">${I.cloud}</span> cloud icon (<strong>Save manually</strong>) next to the record name.</p>
                  <p class="note">Odoo also saves when you leave the form, but saving manually makes sure nothing is lost. The <span class="key">${I.x}</span> next to it discards your changes.</p>
-                 <p class="note">Optional: click <strong>Send email</strong> to notify the contact.</p>`,
+                 <p class="note">Optional: click <strong>Send email</strong> to notify the attendees.</p>`,
           short: "Save with the cloud icon (Save manually). Optionally, click Send email.",
           alt: "Meeting form with the cloud icon (Save manually) and the Send email button highlighted."
         },
         {
-          html: `<p>Open the <strong>Calendar</strong> app and check that the event appears with its title, not just “Google Event.”</p>
-                 <p class="stop">If it doesn't, stop and tell your manager before logging more activities.</p>`,
-          short: "Open Calendar and check the event appears with its title.",
+          html: `<p>Go back to the <strong>Calendar</strong> and check that the meeting appears with its title, not just “Google Event.”</p>
+                 <p class="note">It's also on the customer's contact card: open them in <strong>Contacts</strong> and click the <strong>Activities</strong> button at the top to see their meetings.</p>
+                 <p class="stop">If it doesn't appear, stop and tell your manager before logging more activities.</p>`,
+          short: "Check the meeting appears in the Calendar with its title.",
           alt: "Calendar week view showing the new meeting, “business lunch”, on Monday from 13:00 to 14:00, highlighted."
         }
       ]
@@ -527,7 +530,7 @@
       title: "Como registar uma reunião com um cliente no Odoo",
       lede: "Nove passos curtos. Toque em qualquer imagem para ver exatamente onde clicar.",
       ruleLabel: "A regra",
-      rule: "Nunca crie uma reunião diretamente na app Calendário nem no Google Calendar. Comece sempre pelo contacto.",
+      rule: "Nunca crie reuniões no Google Calendar. Crie-as sempre no Calendário do Odoo e adicione o cliente como participante.",
       count: (n, t) => `${n} de ${t} passos concluídos`,
       reset: "Reiniciar lista",
       step: "Passo",
@@ -545,23 +548,24 @@
       mistakes: [
         "Criar eventos diretamente no Google Calendar.",
         "Títulos vagos, como “Reunião” ou “Visita”.",
-        "Registar a atividade na empresa quando se reúne com uma pessoa concreta.",
+        "Esquecer-se de adicionar o cliente como participante: assim a reunião não aparece na ficha de contacto dele.",
+        "Adicionar a empresa como participante quando se reúne com uma pessoa concreta.",
         "Registar as atividades só no fim, em vez de as registar à medida que acontecem.",
-        "Usar o botão Activity do chatter para registar uma reunião. Esse botão planeia um seguimento; as reuniões registam-se com o botão Activities, na barra do topo.",
+        "Usar o botão Activity do chatter de um contacto para registar uma reunião. Esse botão planeia um seguimento; as reuniões criam-se no Calendar.",
         "Deixar-se a si próprio como Responsible quando é um colega que vai à reunião."
       ],
       footer: "Marque os passos à medida que avança. O seu progresso fica guardado apenas neste navegador.",
       source: `Baseado na <a href="https://www.odoo.com/documentation/20.0/applications/essentials/activities.html" target="_blank" rel="noopener">documentação oficial do Odoo sobre Activities</a>, adaptada à forma como a BTL Portugal usa o Odoo. As imagens são do Odoo da BTL Portugal.`,
       followTitle: "Depois da reunião: planeie o seguimento",
-      followLede: "Precisa de voltar a ligar, enviar uma proposta ou fazer algo mais tarde? Planeie-o como uma atividade no mesmo contacto, para não ficar esquecido.",
+      followLede: "Precisa de voltar a ligar, enviar uma proposta ou fazer algo mais tarde? Planeie-o como uma atividade na ficha do cliente, para não ficar esquecido.",
       follow: [
-        `No mesmo contacto, clique em <strong>Activity</strong> (atividade), no topo do chatter, à direita (ao lado de <strong>Log note</strong>).`,
+        `Abra o cliente em <strong>Contacts</strong> (Contactos) e clique em <strong>Activity</strong> (atividade), no topo do chatter, à direita (ao lado de <strong>Log note</strong>).`,
         `Escolha o <strong>Activity Type</strong> (tipo de atividade), por exemplo ${I.phone} Call, ${I.mail} Email ou ${I.check} To Do.`,
         `Preencha um <strong>Summary</strong> (resumo) curto, por exemplo \u201cEnviar proposta de preço\u201d, a <strong>Due Date</strong> (data limite) e o <strong>Assigned to</strong> (atribuído a; por predefinição, é você).`,
         `Clique em <strong>Save</strong> (guardar). A atividade aparece em <strong>Planned Activities</strong> (atividades planeadas) no chatter e no seu menu de atividades ${I.clock}. Quando estiver feita, clique em <strong>Mark Done</strong> (marcar como feita) e acrescente uma nota curta sobre o resultado.`
       ],
       followNote: "Vai registar uma reunião ou visita? Use sempre os 9 passos acima, para que fique no calendário.",
-      followShort: "Planeie o seguimento com Activity, por cima do chatter. O ícone do relógio no topo mostra todas as suas atividades planeadas.",
+      followShort: "Na ficha do cliente, planeie o seguimento com Activity, por cima do chatter. O ícone do relógio no topo mostra todas as suas atividades planeadas.",
       followAlt: "Ficha de contacto com o botão Activity, por cima do chatter, e o ícone do relógio na barra do topo destacados.",
       followStepOf: "Planear o seguimento",
       knowTitle: "Bom saber",
@@ -589,67 +593,69 @@
       ],
       steps: [
         {
-          html: `<p>No ecrã inicial do Odoo, abra <strong>Contacts</strong> (Contactos).</p>`,
-          short: "Abra a app Contacts no ecrã inicial do Odoo.",
-          alt: "Ecrã inicial do Odoo com a app Contacts destacada."
+          html: `<p>No ecrã inicial do Odoo, abra <strong>Calendar</strong> (Calendário). É o calendário do próprio Odoo, não o Google Calendar.</p>`,
+          short: "Abra a app Calendar no ecrã inicial do Odoo.",
+          alt: "Ecrã inicial do Odoo com a app Calendar destacada."
         },
         {
-          html: `<p>Pesquise a pessoa com quem vai reunir pelo nome (ou pela empresa) na <strong>barra de pesquisa</strong>. Mantenha os filtros predefinidos, <strong>My Company</strong> e <strong>Customers</strong>, como estão.</p>`,
-          short: "Pesquise a pessoa na barra de pesquisa. Mantenha os filtros predefinidos.",
-          alt: "Lista de contactos com a barra de pesquisa e os filtros predefinidos, My Company e Customers, destacados."
+          html: `<p>Clique em <strong>New</strong> (Novo), no canto superior esquerdo.</p>
+                 <p class="note">Também pode clicar diretamente no dia e na hora no calendário. As duas formas abrem a mesma janela <strong>New Event</strong> (novo evento).</p>`,
+          short: "Clique em New, no canto superior esquerdo do Calendar.",
+          alt: "Vista semanal do Calendar do Odoo com o botão New destacado."
         },
         {
-          html: `<p>Abra a <strong>ficha da própria pessoa</strong> (por baixo da empresa) e clique no botão <strong>Activities</strong> (Atividades), na barra de botões no topo.</p>
-                 <p class="note">Não há uma pessoa concreta, por exemplo numa visita sem marcação (cold visit)? Registe na <strong>ficha da empresa</strong> e indique na descrição com quem falou (se for o caso).</p>
-                 <p class="note">Use o botão <strong>Activities</strong> da barra do topo, e não o botão <strong>Activity</strong> por cima do chatter, à direita. Esse serve para planear um seguimento (<a href="#t-follow">ver abaixo</a>).</p>`,
-          short: "Abra a ficha da pessoa e clique em Activities na barra de botões no topo.",
-          alt: "Ficha de contacto de uma pessoa com o botão Activities destacado na barra de botões no topo."
-        },
-        {
-          html: `<p>Abre-se a lista de reuniões deste contacto. Clique em <strong>New</strong> (Novo).</p>`,
-          short: "Na lista de reuniões do contacto, clique em New.",
-          alt: "Lista de reuniões do contacto com o botão New destacado."
-        },
-        {
-          html: `<p>Preencha:</p>
+          html: `<p>Na janela <strong>New Event</strong> (novo evento), preencha:</p>
                  <ul>
-                   <li><strong>Meeting Subject</strong> (assunto): um título claro, que diga o que é a reunião e com quem ou sobre o quê, por exemplo “Acompanhamento da instalação, Clínica São Dinis”.</li>
-                   <li><strong>Responsible</strong> (responsável): o colaborador que realiza a atividade. Por predefinição, é você; altere se for um colega.</li>
-                   <li><strong>Start</strong> (início) e <strong>Duration</strong> (duração): a data e a hora reais de início, e quanto tempo dura. A hora de fim atualiza-se a partir da duração.</li>
-                   <li><strong>Attendees</strong> (participantes): confirme que o contacto aparece na lista. Acrescente outros participantes, se for preciso.</li>
+                   <li><strong>Título</strong> (onde diz “Add Title”): um título claro, que diga o que é a reunião e com quem ou sobre o quê, por exemplo “Acompanhamento da instalação, Clínica São Dinis”.</li>
+                   <li><strong>Responsible</strong> (responsável; o nome ao lado do tipo de atividade): o colaborador que realiza a atividade. Por predefinição, é você; altere se for um colega.</li>
+                   <li><strong>Início e fim:</strong> a data e as horas reais da reunião.</li>
                  </ul>`,
-          short: "Preencha Meeting Subject, Responsible, Start e Duration, e confirme os participantes.",
-          alt: "Formulário de nova reunião com o Meeting Subject, os campos Responsible e Start e a lista de participantes destacados."
+          short: "Na janela New Event, preencha o título, o Responsible e as horas de início e de fim.",
+          alt: "Janela New Event com o campo do título e os campos Responsible e de data e hora destacados."
         },
         {
-          html: `<p>Escolha o <strong>Activity Type</strong> (tipo de atividade) certo: <strong>Meeting/Visit</strong> para uma reunião ou visita; caso contrário, o tipo correspondente, como Call, Training, Prospecting, Installation, Business trip ou Email.</p>
+          html: `<p>Escolha o <strong>Activity Type</strong> (tipo de atividade) certo, no primeiro campo por baixo do título (por predefinição mostra “Meeting/…”): <strong>Meeting/Visit</strong> para uma reunião ou visita; caso contrário, o tipo correspondente, como Call, Training, Prospecting, Installation, Business trip ou Email.</p>
                  <p class="note">Use To Do apenas se nenhum outro servir. Os nomes dos tipos estão escritos como aparecem no Odoo.</p>`,
           short: "Escolha o Activity Type certo, por exemplo Meeting/Visit.",
-          alt: "Lista do Activity Type aberta, com Meeting/Visit, To Do, Call, Training, Prospecting, Installation, Business trip e Email."
+          alt: "Janela New Event com o campo Activity Type destacado."
         },
         {
-          html: `<p>Abra o separador <strong>Options</strong> (opções) e, em <strong>Calendar description</strong> (descrição), escreva o que foi discutido, o objetivo e os próximos passos.</p>`,
+          html: `<p>Adicione o cliente como <strong>participante</strong>. No campo dos participantes (o ícone de pessoa, onde já aparece o seu nome), escreva o nome do cliente e escolha a <strong>ficha da própria pessoa</strong>. Os contactos aparecem como “Empresa, Pessoa”, por isso confirme que a empresa é a certa.</p>
+                 <p class="note">É isto que liga a reunião ao cliente: assim, ela aparece também na ficha de contacto dele.</p>
+                 <p class="note">Não há uma pessoa concreta, por exemplo numa visita sem marcação (cold visit)? Adicione a <strong>empresa</strong> como participante e indique na descrição com quem falou (se for o caso). Adicione também os colegas que vão à reunião.</p>`,
+          short: "Adicione o cliente como participante: a ficha da própria pessoa.",
+          alt: "Janela New Event com o campo dos participantes destacado."
+        },
+        {
+          html: `<p>Clique em <strong>More Options</strong> (mais opções), e não em Save, para abrir o formulário completo da reunião.</p>
+                 <p class="note">Confirme aí que está tudo certo: Activity Type, Responsible, Start, Duration e os participantes.</p>`,
+          short: "Clique em More Options para abrir o formulário completo da reunião.",
+          alt: "Janela New Event com o botão More Options destacado."
+        },
+        {
+          html: `<p>No formulário completo, abra o separador <strong>Options</strong> (opções) e, em <strong>Calendar description</strong> (descrição), escreva o que foi discutido, o objetivo e os próximos passos.</p>`,
           short: "Abra o separador Options e escreva os detalhes em Calendar description.",
           alt: "Formulário da reunião com o separador Options e o campo Calendar description destacados."
         },
         {
           html: `<p>Guarde com o ícone da nuvem <span class="key">${I.cloud}</span> (<strong>Save manually</strong>), ao lado do nome do registo.</p>
                  <p class="note">O Odoo também guarda quando sai do formulário, mas guardar manualmente garante que nada se perde. O <span class="key">${I.x}</span> ao lado descarta as alterações.</p>
-                 <p class="note">Opcional: clique em <strong>Send email</strong> para avisar o contacto por email.</p>`,
+                 <p class="note">Opcional: clique em <strong>Send email</strong> para avisar os participantes por email.</p>`,
           short: "Guarde com o ícone da nuvem (Save manually). Opcional: clique em Send email.",
           alt: "Formulário da reunião com o ícone da nuvem (Save manually) e o botão Send email destacados."
         },
         {
-          html: `<p>Abra a app <strong>Calendar</strong> (Calendário) e confirme que o evento aparece com o título, e não apenas “Google Event”.</p>
+          html: `<p>Volte ao <strong>Calendar</strong> (Calendário) e confirme que a reunião aparece com o título, e não apenas “Google Event”.</p>
+                 <p class="note">A reunião também fica na ficha do cliente: abra-o em <strong>Contacts</strong> e clique no botão <strong>Activities</strong>, no topo, para ver as reuniões dele.</p>
                  <p class="stop">Se não aparecer, pare e avise o seu responsável antes de registar mais atividades.</p>`,
-          short: "Abra o Calendar e confirme que o evento aparece com o título.",
+          short: "Confirme que a reunião aparece no Calendar com o título.",
           alt: "Vista semanal do calendário com a nova reunião, “business lunch”, destacada na segunda-feira das 13:00 às 14:00."
         }
       ]
     }
   };
 
-  const KEY = "btl-odoo-checklist-v2";
+  const KEY = "btl-odoo-checklist-v3";
   const LKEY = "btl-odoo-lang";
   const TOTAL = STEPS;
   let done = [];
